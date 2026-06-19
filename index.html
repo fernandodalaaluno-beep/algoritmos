@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmos e Programação - Lista de Tarefas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .disciplina {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .tarefas {
+            display: grid;
+            gap: 20px;
+        }
+
+        .tarefa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid #0056b3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .tarefa h2 {
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+
+        .tarefa p {
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .pendente {
+            background-color: #dc3545;
+        }
+
+        .andamento {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .concluida {
+            background-color: #28a745;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Algoritmos e Programação</h1>
+        <p class="disciplina">Lista de Tarefas da Disciplina</p>
+    </header>
+
+    <section class="tarefas">
+
+        <div class="tarefa">
+            <h2>Tarefa 01 - Introdução à Lógica</h2>
+            <p>Estudar conceitos básicos de algoritmos e lógica de programação.</p>
+            <span class="status concluida">Concluída</span>
+        </div>
+
+        <div class="tarefa">
+            <h2>Tarefa 02 - Fluxogramas</h2>
+            <p>Criar fluxogramas para problemas simples utilizando estruturas sequenciais.</p>
+            <span class="status concluida">Concluída</span>
+        </div>
+
+        <div class="tarefa">
+            <h2>Tarefa 03 - Estruturas Condicionais</h2>
+            <p>Desenvolver exercícios utilizando IF, ELSE e SWITCH.</p>
+            <span class="status andamento">Em Andamento</span>
+        </div>
+
+        <div class="tarefa">
+            <h2>Tarefa 04 - Estruturas de Repetição</h2>
+            <p>Resolver exercícios com FOR, WHILE e DO-WHILE.</p>
+            <span class="status pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa">
+            <h2>Tarefa 05 - Vetores e Matrizes</h2>
+            <p>Implementar programas utilizando estruturas de dados básicas.</p>
+            <span class="status pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa">
+            <h2>Tarefa 06 - Projeto Final</h2>
+            <p>Desenvolver um sistema aplicando os conceitos estudados na disciplina.</p>
+            <span class="status pendente">Pendente</span>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>Disciplina de Algoritmos e Programação &copy; 2026</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
