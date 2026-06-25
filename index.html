@@ -3,94 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algoritmos e Programação - Lista de Tarefas</title>
+    <title>Algoritmos e Programação - Portfólio de Tarefas</title>
     <style>
+        :root {
+            --cor-concluida: #2ec4b6;
+            --cor-andamento: #ff9f1c;
+            --cor-pendente: #e71d36;
+            --cor-fundo: #f8f9fa;
+            --cor-texto-principal: #1e293b;
+            --cor-texto-secundario: #64748b;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f4f6f9;
-            color: #333;
-            padding: 30px;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-principal);
+            padding: 40px 20px;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: auto;
         }
 
+        /* Topo e Dashboard */
         header {
             text-align: center;
             margin-bottom: 30px;
+            background: white;
+            padding: 35px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         h1 {
-            color: #0056b3;
-            margin-bottom: 10px;
+            color: #0f172a;
+            margin-bottom: 8px;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .disciplina {
-            font-size: 1.1rem;
-            color: #555;
+            font-size: 1.15rem;
+            color: var(--cor-texto-secundario);
+            margin-bottom: 25px;
         }
 
+        /* Estatísticas e Filtros */
+        .dashboard-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-filtro {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--cor-texto-principal);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-filtro:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-filtro.ativo {
+            background: var(--cor-texto-principal);
+            color: white;
+            border-color: var(--cor-texto-principal);
+        }
+
+        .badge-count {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-filtro.ativo .badge-count {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Grid de Tarefas */
         .tarefas {
             display: grid;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
         }
 
         .tarefa {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 6px solid #0056b3;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 28px;
+            border-radius: 16px;
+            border-top: 6px solid #64748b; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-inline: 1px solid rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-        .tarefa h2 {
-            margin-bottom: 10px;
-            color: #0056b3;
+        .tarefa:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
         }
 
-        .tarefa p {
-            margin-bottom: 8px;
+        /* Customização por Status */
+        .tarefa.status-concluida { border-top-color: var(--cor-concluida); }
+        .tarefa.status-andamento { border-top-color: var(--cor-andamento); }
+        .tarefa.status-pendente { border-top-color: var(--cor-pendente); }
+
+        .tarefa-conteudo h2 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #0f172a;
+            font-weight: 700;
         }
 
-        .status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
+        .tarefa-conteudo p {
+            font-size: 0.95rem;
+            color: var(--cor-texto-secundario);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .status-tag {
+            align-self: flex-start;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .pendente {
-            background-color: #dc3545;
-        }
-
-        .andamento {
-            background-color: #ffc107;
-            color: #333;
-        }
-
-        .concluida {
-            background-color: #28a745;
-        }
+        .concluida { background-color: var(--cor-concluida); }
+        .andamento { background-color: var(--cor-andamento); color: #fff; }
+        .pendente { background-color: var(--cor-pendente); }
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            color: #777;
+            margin-top: 60px;
+            color: var(--cor-texto-secundario);
+            font-size: 0.95rem;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 15px;
-            }
+        /* Responsividade Aninhada */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.9rem; }
+            body { padding: 20px 10px; }
+            .tarefas { grid-template-columns: 1fr; gap: 15px; }
+            .dashboard-controls { flex-direction: column; width: 100%; }
+            .btn-filtro { width: 100%; justify-content: space-between; }
         }
     </style>
 </head>
@@ -100,45 +187,168 @@
 
     <header>
         <h1>Algoritmos e Programação</h1>
-        <p class="disciplina">Lista de Tarefas da Disciplina</p>
+        <p class="disciplina">Portfólio Dinâmico de Entregas</p>
+        
+        <div class="dashboard-controls">
+            <button class="btn-filtro ativo" onclick="filtrarTarefas('todas', this)">
+                Todas <span class="badge-count" id="count-todas">0</span>
+            </button>
+            <button class="btn-filtro" onclick="filtrarTarefas('concluida', this)">
+                Concluídas <span class="badge-count" id="count-concluida" style="background-color: rgba(46, 196, 182, 0.2); color: var(--cor-concluida)">0</span>
+            </button>
+            <button class="btn-filtro" onclick="filtrarTarefas('andamento', this)">
+                Em Andamento <span class="badge-count" id="count-andamento" style="background-color: rgba(255, 159, 28, 0.2); color: var(--cor-andamento)">0</span>
+            </button>
+            <button class="btn-filtro" onclick="filtrarTarefas('pendente', this)">
+                Pendentes <span class="badge-count" id="count-pendente" style="background-color: rgba(231, 29, 54, 0.2); color: var(--cor-pendente)">0</span>
+            </button>
+        </div>
     </header>
 
-    <section class="tarefas">
+    <section class="tarefas" id="grid-tarefas">
 
-        <div class="tarefa">
-            <h2>Tarefa 01 - Introdução à Lógica</h2>
-            <p>Estudar conceitos básicos de algoritmos e lógica de programação.</p>
-            <span class="status concluida">Concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 01 - Seleção de Problemas</h2>
+                <p>Lista de 15 exercícios: Escolher e resolver problemas de lógica aplicados.</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
         </div>
 
-        <div class="tarefa">
-            <h2>Tarefa 02 - Fluxogramas</h2>
-            <p>Criar fluxogramas para problemas simples utilizando estruturas sequenciais.</p>
-            <span class="status concluida">Concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 02 - Base Algorítmica</h2>
+                <p>Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
         </div>
 
-        <div class="tarefa">
-            <h2>Tarefa 03 - Estruturas Condicionais</h2>
-            <p>Desenvolver exercícios utilizando IF, ELSE e SWITCH.</p>
-            <span class="status concluida">Concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 03 - Formulação de Exercícios</h2>
+                <p>Geração de uma nova lista estruturada com 10 exercícios inéditos de algoritmos.</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
         </div>
 
-        <div class="tarefa">
-            <h2>Tarefa 04 - Estruturas de Repetição</h2>
-            <p>Resolver exercícios com FOR, WHILE e DO-WHILE.</p>
-            <span class="status concluida">concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 04 - Resolução Analítica</h2>
+                <p>Resolver os 5 exercícios complexos diretamente no papel (teste de mesa manual).</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
         </div>
 
-        <div class="tarefa">
-            <h2>Tarefa 05 - Vetores e Matrizes</h2>
-            <p>Implementar programas utilizando estruturas de dados básicas.</p>
-            <span class="status Concluida ">concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 05 - Estruturas em Python</h2>
+                <p>Resolver e codificar os exercícios de listas/vetores/arrays nativamente em Python.</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
         </div>
 
-        <div class="tarefa">
-            <h2>Tarefa 06 - Projeto Final</h2>
-            <p>Desenvolver um sistema aplicando os conceitos estudados na disciplina.</p>
-            <span class="status Concluida ">concluída</span>
+        <div class="tarefa status-concluida">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 06 - Domínio de Vetores</h2>
+                <p>Formulação e Resolução avançada de Problemas complexos com Vetores.</p>
+            </div>
+            <span class="status-tag concluida">Concluída</span>
+        </div>
+
+        <div class="tarefa status-andamento">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 07 - Refatoração Visual</h2>
+                <p>Atividade: Gerar as diferentes versões do código até ter resultados visuais interessantes e consistentes.</p>
+            </div>
+            <span class="status-tag andamento">Em Andamento</span>
+        </div>
+
+        <div class="tarefa status-andamento">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 08 - Interdisciplinaridade</h2>
+                <p>Atividade: Problemas de outras disciplinas – resolução analítica em múltiplas abordagens de software.</p>
+            </div>
+            <span class="status-tag andamento">Em Andamento</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 09 - Desafio de Engenharia I</h2>
+                <p>Atividade: escolher e entregar 1 dos dois problemas de engenharia propostos em sala.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 10 - Desafio de Engenharia II</h2>
+                <p>Atividade: entregar o segundo dos dois problemas de engenharia propostos na aula passada.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 11 - Aplicação Prática</h2>
+                <p>Escolher e resolver um problema de modelagem voltado à engenharia.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 12 - Otimização</h2>
+                <p>Evolução técnica e refatoração arquitetural da solução desenvolvida na atividade anterior.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 13 - UX e Entrevistas</h2>
+                <p>Escreva um breve relato sincero e reflexivo sobre as entrevistas de experiência do usuário coletadas.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 14 - Modularização & LLMs</h2>
+                <p>Modularização de Código e Avaliação de LLMs (Atividade prática realizada em aula).</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 15 - Auditoria Web</h2>
+                <p>Avaliar criticamente os pontos de usabilidade, SEO e acessibilidade do site alegrete.org.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 16 - Engenharia com IA</h2>
+                <p>Atividade: Desenvolvimento Assistido por IA para otimização do Portal Alegrete.org.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 17 - Homologação</h2>
+                <p>Postar o link de produção e uma captura de tela (print) do seu ambiente implantado no .github.io.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
+        </div>
+
+        <div class="tarefa status-pendente">
+            <div class="tarefa-conteudo">
+                <h2>Tarefa 18 - Portfólio Final (V1)</h2>
+                <p>Projeto Final da Disciplina: Consolidação do Portfólio de Entregas estruturado no GitHub.io.</p>
+            </div>
+            <span class="status-tag pendente">Pendente</span>
         </div>
 
     </section>
@@ -148,6 +358,45 @@
     </footer>
 
 </div>
+
+<script>
+    // Função Inteligente para Filtrar e Atualizar Métricas
+    function filtrarTarefas(status, botao) {
+        // Atualiza estilo dos botões
+        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
+        botao.classList.add('ativo');
+
+        // Filtra os cards
+        const tarefas = document.querySelectorAll('.tarefa');
+        tarefas.forEach(tarefa => {
+            if (status === 'todas') {
+                tarefa.style.display = 'flex';
+            } else {
+                if (tarefa.classList.contains('status-' + status)) {
+                    tarefa.style.display = 'flex';
+                } else {
+                    tarefa.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // Calcula os contadores ao carregar a página automaticamente
+    function atualizarContadores() {
+        const total = document.querySelectorAll('.tarefa').length;
+        const concluidas = document.querySelectorAll('.status-concluida').length;
+        const andamento = document.querySelectorAll('.status-andamento').length;
+        const pendentes = document.querySelectorAll('.status-pendente').length;
+
+        document.getElementById('count-todas').innerText = total;
+        document.getElementById('count-concluida').innerText = concluidas;
+        document.getElementById('count-andamento').innerText = andamento;
+        document.getElementById('count-pendente').innerText = pendentes;
+    }
+
+    // Inicializa métricas
+    window.onload = atualizarContadores;
+</script>
 
 </body>
 </html>
