@@ -3,377 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Algoritmos e Programação - Unipampa - Fernando Dala</title>
+    <title>Algoritmos e Programação - Unipampa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* ── PALETA AZUL (extraída do wallpaper) ── */
+        /* SETUP DE CORES - Paleta Uxintace + Toques Acadêmicos */
         :root {
-            --azul-profundo:   #0A1628;
-            --azul-escuro:     #0D2550;
-            --azul-medio:      #1A4A8A;
-            --azul-royal:      #1565C0;
-            --azul-vivo:       #1E88E5;
-            --azul-claro:      #64B5F6;
-            --azul-gelo:       #BBDEFB;
-            --azul-bruma:      #E3F2FD;
-            --branco:          #ffffff;
-            --texto-claro:     #E8F4FD;
-            --texto-secundario:#90CAF9;
-
-            --gradient-fundo:  linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
-            --glass-fundo:     rgba(255,255,255,0.06);
-            --glass-fundo-hov: rgba(255,255,255,0.10);
-            --glass-border:    rgba(100,181,246,0.20);
-            --glass-border-hov:rgba(100,181,246,0.45);
-            --glass-blur:      blur(12px);
+            --cor-verde: #008751;
+            --cor-azul-celeste: #00a4e4;
+            --cor-laranja: #f26522;
+            --cor-branco: #ffffff;
+            --cor-fundo: #f0f4f8;
+            --cor-texto-principal: #1e293b;
+            --cor-texto-secundario: #475569;
+            
+            /* Tons Roxos Uxintace para Componentes de Destaque */
+            --ux-dark: #49225B;
+            --ux-brand: #6E3482;
+            --ux-mid: #A56ABD;
+            --ux-light: #E7DBEF;
+            --ux-soft: #F5EBFA;
+            
+            --status-pendente: #757575;
+            --bg-gradient: linear-gradient(180deg, var(--cor-branco) 0%, var(--ux-soft) 50%, var(--ux-light) 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body {
-            background: var(--gradient-fundo);
+            background: var(--bg-gradient);
             background-attachment: fixed;
-            color: var(--texto-claro);
-            padding: 40px 20px;
-            line-height: 1.6;
+            color: var(--cor-texto-principal);
+            font-family: 'Source Sans 3', sans-serif;
+            padding: 50px 20px;
             min-height: 100vh;
         }
 
-        /* Estrelas/partículas decorativas */
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background:
-                radial-gradient(circle at 20% 30%, rgba(30,136,229,0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(13,37,80,0.25) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(21,101,192,0.08) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
+        .dashboard { 
+            max-width: 1200px; 
+            margin: auto; 
         }
 
-        .container { max-width: 1250px; margin: auto; position: relative; z-index: 1; }
-
-        /* ── HEADER ── */
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            background: var(--glass-fundo);
-            padding: 50px 30px 40px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(73, 34, 91, 0.06);
+            border: 1px solid var(--cor-branco);
+            margin-bottom: 40px;
+        }
+
+        .unipampa-logo { 
+            margin-bottom: 25px; 
+            display: inline-block; 
+        }
+        
+        .unipampa-logo svg { 
+            width: 260px; 
+            height: auto; 
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.6rem;
+            color: var(--ux-dark);
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-weight: 600;
+            color: var(--ux-brand);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .exec-card {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            background: var(--ux-dark);
+            color: var(--cor-branco);
+            padding: 15px 35px;
+            border-radius: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(73, 34, 91, 0.2);
+        }
+
+        .exec-card span strong { 
+            color: var(--cor-azul-celeste); 
+            margin-right: 8px; 
+        }
+
+        .filter-shelf {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            background: var(--cor-branco);
+            border: 1px solid var(--ux-light);
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: var(--ux-brand);
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-btn:hover { 
+            background: var(--ux-soft); 
+            transform: translateY(-2px); 
+        }
+
+        .filter-btn.active {
+            background: var(--ux-brand);
+            color: var(--cor-branco);
+            border-color: var(--ux-brand);
+            box-shadow: 0 5px 15px rgba(110, 52, 130, 0.25);
+        }
+
+        .count-tag {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .filter-btn.active .count-tag { 
+            background: rgba(255, 255, 255, 0.2); 
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
+
+        .task-tile {
+            background: var(--cor-branco);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--ux-light);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             position: relative;
             overflow: hidden;
         }
 
-        /* Linha luminosa no topo — inspirada na curva do wallpaper */
-        header::before {
+        .task-tile::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent 0%, var(--azul-claro) 40%, var(--branco) 60%, var(--azul-claro) 80%, transparent 100%);
-            opacity: 0.9;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--ux-mid);
+            transition: 0.3s;
         }
 
-        /* ── LOGO UNIPAMPA REAL ── */
-        .logo-unipampa {
-            margin-bottom: 28px;
+        .task-tile:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(73, 34, 91, 0.08);
+            border-color: var(--cor-azul-celeste);
+        }
+
+        .task-tile:hover::after { 
+            background: var(--cor-azul-celeste); 
+            width: 6px; 
+        }
+
+        .task-header h3 {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--ux-dark);
+            margin-bottom: 12px;
+        }
+
+        .task-header p {
+            color: var(--cor-texto-secundario);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .links-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
-        /* Container com fundo branco para preservar as cores originais do logo */
-        .logo-wrapper {
-            background: rgba(255,255,255,0.96);
-            border-radius: 16px;
-            padding: 18px 32px;
-            display: inline-flex;
+        .action-link {
+            display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(100,181,246,0.3);
-        }
-
-        .logo-wrapper img {
-            width: 280px;
-            height: auto;
-            max-width: 100%;
-            display: block;
-        }
-
-        /* Fallback SVG (caso a imagem não carregue) */
-        .logo-svg-fallback {
-            display: none;
-            width: 280px;
-            height: auto;
-        }
-
-        h1 {
-            color: var(--branco);
-            margin-bottom: 6px;
-            font-size: 2.4rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 20px rgba(30,136,229,0.4);
-        }
-
-        .disciplina {
-            font-size: 1.15rem;
-            color: var(--azul-claro);
-            font-weight: 600;
-            margin-bottom: 22px;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .info-aluno {
-            display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 24px;
-            background: rgba(255,255,255,0.05);
-            padding: 12px 32px;
-            border-radius: 40px;
-            border: 1px solid rgba(100,181,246,0.2);
-            margin-bottom: 35px;
-            font-size: 0.95rem;
-        }
-        .info-aluno span { color: var(--texto-secundario); }
-        .info-aluno strong { color: var(--branco); font-weight: 700; }
-
-        /* ── FILTROS ── */
-        .dashboard-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-
-        .btn-filtro {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(100,181,246,0.25);
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-size: 0.9rem; font-weight: 700;
-            cursor: pointer;
-            color: var(--azul-claro);
-            display: flex; align-items: center; gap: 10px;
-            transition: all 0.3s ease;
-        }
-        .btn-filtro:hover {
-            background: rgba(100,181,246,0.12);
-            border-color: rgba(100,181,246,0.5);
-            transform: translateY(-2px);
-        }
-        .btn-filtro.ativo {
-            background: linear-gradient(135deg, var(--azul-royal) 0%, var(--azul-vivo) 100%);
-            color: var(--branco);
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(30,136,229,0.45);
-        }
-
-        .badge-count {
-            background: rgba(255,255,255,0.12);
-            padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;
-        }
-        .btn-filtro.ativo .badge-count { background: rgba(255,255,255,0.2); }
-
-        /* ── GRID TAREFAS ── */
-        .tarefas { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 22px; }
-
-        .tarefa {
-            background: var(--glass-fundo);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            display: flex; flex-direction: column; justify-content: space-between;
-            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-            position: relative; overflow: hidden;
-        }
-
-        .tarefa::before {
-            content: '';
-            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--azul-medio) 0%, var(--azul-claro) 60%, rgba(255,255,255,0.6) 100%);
-            opacity: 0.5;
-            transition: opacity 0.35s ease;
-        }
-
-        /* Brilho sutil no canto superior direito */
-        .tarefa::after {
-            content: '';
-            position: absolute; top: -40px; right: -40px;
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(30,136,229,0.12) 0%, transparent 70%);
-            transition: opacity 0.35s ease;
-            opacity: 0;
-        }
-
-        .tarefa:hover {
-            transform: translateY(-5px);
-            border-color: var(--glass-border-hov);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(100,181,246,0.2);
-            background: var(--glass-fundo-hov);
-        }
-        .tarefa:hover::before { opacity: 1; }
-        .tarefa:hover::after { opacity: 1; }
-
-        .tarefa-conteudo h2 {
-            font-size: 1.2rem; margin-bottom: 10px;
-            color: var(--branco); font-weight: 700; letter-spacing: -0.2px;
-        }
-        .tarefa-conteudo p {
-            font-size: 0.93rem; color: var(--texto-secundario);
-            line-height: 1.6; margin-bottom: 18px;
-        }
-
-        /* ── LINKS ── */
-        .tarefa-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-
-        .btn-link-tarefa {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 15px;
-            background-color: rgba(30,136,229,0.1);
-            color: var(--azul-claro);
-            border: 1px solid rgba(100,181,246,0.3);
+            gap: 8px;
+            padding: 10px 20px;
+            border: 2px solid var(--ux-brand);
             border-radius: 10px;
-            font-size: 0.83rem; font-weight: 700;
+            color: var(--ux-brand);
             text-decoration: none;
-            transition: all 0.25s ease;
-            white-space: nowrap;
-        }
-        .btn-link-tarefa:hover {
-            background-color: var(--azul-vivo);
-            color: var(--branco);
-            border-color: var(--azul-vivo);
-            box-shadow: 0 4px 16px rgba(30,136,229,0.4);
-        }
-        .btn-link-tarefa.desabilitado {
-            opacity: 0.3; pointer-events: none;
-        }
-        .link-icon { font-size: 1em; line-height: 1; }
-
-        /* ── STATUS TAG ── */
-        .status-tag {
-            align-self: flex-start; padding: 6px 16px; border-radius: 30px;
-            font-size: 0.75rem; font-weight: 700; color: var(--branco);
-            text-transform: uppercase; letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-vivo) 100%);
-            box-shadow: 0 2px 12px rgba(30,136,229,0.35);
-        }
-        .status-tag.pendente {
-            background: linear-gradient(135deg, #37474F 0%, #546E7A 100%);
-            box-shadow: none;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            text-align: center; margin-top: 70px;
-            color: rgba(144,202,249,0.6);
+            font-weight: 700;
             font-size: 0.9rem;
-            border-top: 1px solid rgba(100,181,246,0.12);
-            padding-top: 25px;
+            transition: 0.2s ease;
+            text-align: center;
         }
-        footer strong { color: var(--azul-claro); }
 
-        /* ── RESPONSIVE ── */
+        .action-link:hover:not(.disabled) {
+            background: var(--ux-brand);
+            color: var(--cor-branco);
+        }
+
+        .action-link.disabled {
+            border-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+
+        .status-pill {
+            align-self: flex-start;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-pill.concluida { 
+            background: var(--ux-light); 
+            color: var(--ux-dark); 
+        }
+        
+        .status-pill.pendente { 
+            background: #e2e8f0; 
+            color: var(--status-pendente); 
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 1px solid var(--ux-light);
+            text-align: center;
+            color: var(--ux-brand);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .disciplina { font-size: 1rem; }
-            body { padding: 20px 12px; }
-            header { padding: 35px 18px 28px; }
-            .logo-wrapper { padding: 14px 22px; }
-            .logo-wrapper img { width: 220px; }
-            .info-aluno { flex-direction: column; gap: 6px; padding: 14px; width: 100%; }
-            .dashboard-controls { flex-direction: column; width: 100%; }
-            .btn-filtro { width: 100%; justify-content: space-between; }
-            .tarefas { grid-template-columns: 1fr; gap: 14px; }
-            .tarefa { padding: 22px; }
+            .exec-card { flex-direction: column; border-radius: 20px; gap: 10px; width: 100%; text-align: left; }
+            h1 { font-size: 2rem; }
+            .filter-shelf { flex-direction: column; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-<div class="container">
 
+<div class="dashboard">
     <header>
-        <!-- LOGO UNIPAMPA: imagem real referenciada da pasta local -->
-        <div class="logo-unipampa">
-            <div class="logo-wrapper">
-                <!--
-                    INSTRUÇÕES: Coloque o arquivo do logo (PNG ou JPG) na mesma pasta
-                    do index.html e ajuste o src abaixo para o nome correto do arquivo.
-                    Exemplo: src="logo_unipampa.png"
-                    Enquanto isso, o SVG vetorial simplificado serve como fallback.
-                -->
-                <img
-                    src="logo_unipampa.png"
-                    alt="Unipampa — Universidade Federal do Pampa"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-                >
-                <!-- SVG fiel ao logo real (fallback se a imagem não carregar) -->
-                <svg class="logo-svg-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 130">
-                    <!-- Árvore (trifólio) verde -->
-                    <g fill="#3BA832">
-                        <!-- Bola esquerda -->
-                        <circle cx="185" cy="22" r="18"/>
-                        <!-- Bola direita -->
-                        <circle cx="215" cy="22" r="18"/>
-                        <!-- Bola central/topo -->
-                        <circle cx="200" cy="10" r="18"/>
-                        <!-- Tronco -->
-                        <rect x="196" y="34" width="8" height="16" rx="3"/>
-                    </g>
-
-                    <!-- "unipampa" em preto, tipografia bold condensada -->
-                    <text
-                        x="200" y="90"
-                        text-anchor="middle"
-                        font-family="Arial Black, Arial, sans-serif"
-                        font-weight="900"
-                        font-size="42"
-                        fill="#1A1A1A"
-                        letter-spacing="-1"
-                    >unipampa</text>
-
-                    <!-- Linha curva verde (onda) abaixo do texto -->
-                    <path
-                        d="M 30 102 Q 120 94 200 100 Q 280 106 390 98"
-                        stroke="#3BA832" stroke-width="3.5" fill="none"
-                        stroke-linecap="round"
-                    />
-
-                    <!-- "Universidade Federal do Pampa" -->
-                    <text
-                        x="200" y="125"
-                        text-anchor="middle"
-                        font-family="Arial, Helvetica, sans-serif"
-                        font-weight="700"
-                        font-size="14"
-                        fill="#1A1A1A"
-                        letter-spacing="0.3"
-                    >Universidade Federal do Pampa</text>
-                </svg>
-            </div>
+        <div class="unipampa-logo">
+            <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#6E3482">
+                    <path d="M40 20h20v60c0 10 8 18 18 18s18-8 18-18V20h20v60c0 22-18 40-40 40s-40-18-40-40V20z"/>
+                    <rect x="130" y="20" width="20" height="100"/>
+                    <path d="M165 20h30c15 0 25 10 25 25s-10 25-25 25h-10v30h-20V20zm20 30h10c5 0 5-10 0-10h-10v10z"/>
+                    <path d="M250 20l25 100h-20l-5-25h-20l-5 25h-20l25-100zm10 55l-5-25-5 25h10z"/>
+                </g>
+                <text x="310" y="85" font-family="'Source Sans 3', sans-serif" font-weight="800" font-size="65" fill="#49225B">UNIPAMPA</text>
+                <rect x="40" y="0" width="420" height="8" fill="#A56ABD" rx="4"/>
+                <rect x="40" y="112" width="420" height="4" fill="#0db8d3" rx="2"/>
+            </svg>
         </div>
 
         <h1>Algoritmos e Programação</h1>
-        <p class="disciplina">Portfólio de Entregas Digitais</p>
-
-        <div class="info-aluno">
-            <span><strong>Aluno:</strong> Fernando Da Silva Dala</span>
-            <span><strong>Matrícula:</strong> 2610100511</span>
+        <p class="subtitle">Portfólio de Engenharia de Software</p>
+        
+        <div class="exec-card">
+            <span><strong>NOME:</strong> Fernando Da Silva Dala</span>
+            <span><strong>MATRÍCULA:</strong> 2610100511</span>
         </div>
-
-        <div class="dashboard-controls">
-            <button class="btn-filtro ativo" onclick="filtrarTarefas('todas', this)">
-                Todas <span class="badge-count" id="count-todas">0</span>
+        
+        <div class="filter-shelf">
+            <button class="filter-btn active" onclick="filtrarTarefas('todas', this)">
+                TUDO <span class="count-tag" id="count-todas">0</span>
             </button>
-            <button class="btn-filtro" onclick="filtrarTarefas('concluida', this)">
-                Concluídas <span class="badge-count" id="count-concluida">0</span>
+            <button class="filter-btn" onclick="filtrarTarefas('concluida', this)">
+                ENTREGUES <span class="count-tag" id="count-concluida">0</span>
             </button>
-            <button class="btn-filtro" onclick="filtrarTarefas('pendente', this)">
-                Pendentes <span class="badge-count" id="count-pendente">0</span>
+            <button class="filter-btn" onclick="filtrarTarefas('pendente', this)">
+                PENDENTES <span class="count-tag" id="count-pendente">0</span>
             </button>
         </div>
     </header>
 
-    <section class="tarefas" id="grid-tarefas"></section>
+    <section class="grid" id="grid-tarefas"></section>
 
     <footer>
         <p><strong>Universidade Federal do Pampa &bull; Campus Alegrete</strong> &bull; Engenharia &copy; 2026</p>
@@ -381,178 +325,197 @@
 </div>
 
 <script>
-const TAREFAS = [
-    {
-        numero: "01", titulo: "Seleção de Problemas",
-        descricao: "Análise e seleção de 15 exercícios de lógica aplicada.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 1/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "02", titulo: "Base Algorítmica",
-        descricao: "Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 2/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "03", titulo: "Formulação de Exercícios",
-        descricao: "Formulação completa de uma lista estruturada com 10 novos exercícios.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 3/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "04", titulo: "Resolução Analítica",
-        descricao: "Resolução de 5 exercícios analíticos diretamente no papel.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 4/", icon: "📁", tipo: "pasta" },
-            // { label: "PDF digitalizado", url: "tarefa 4/resolucao.pdf", icon: "📄", tipo: "pdf" },
-        ]
-    },
-    {
-        numero: "05", titulo: "Estruturas em Python",
-        descricao: "Implementação nativa de listas/vetores/arrays em Python.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 5/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver no GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
-        ]
-    },
-    {
-        numero: "06", titulo: "Domínio de Vetores",
-        descricao: "Formulação e Resolução avançada de problemas complexos com Vetores.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 6/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "07", titulo: "Refatoração Visual",
-        descricao: "Desenvolvimento iterativo até obter resultados visuais consistentes.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 7/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "08", titulo: "Interdisciplinaridade",
-        descricao: "Resolução analítica de problemas vindos de outras disciplinas.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 8/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "09", titulo: "Desafio de Engenharia I",
-        descricao: "Análise e entrega do primeiro problema de engenharia complexo proposto.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 9/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "10", titulo: "Desafio de Engenharia II",
-        descricao: "Análise e entrega do segundo problema de engenharia complexo proposto.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 10/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "11", titulo: "Aplicação Prática",
-        descricao: "Escolher e resolver um problema de modelagem voltado à engenharia.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 11/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "12", titulo: "Otimização",
-        descricao: "Evolução técnica e refatoração arquitetural da solução anterior.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 12/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "13", titulo: "UX e Entrevistas",
-        descricao: "Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 13/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "14", titulo: "Modularização & LLMs",
-        descricao: "Modularização de Código e Avaliação crítica de Large Language Models.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa 14/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "15", titulo: "Auditoria Web: alegrete.org",
-        descricao: "Auditoria crítica de usabilidade e SEO do site alegrete.org.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 15/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver relatório", url: "tarefa 15/relatorio.pdf", icon: "📄", tipo: "pdf" },
-        ]
-    },
-    {
-        numero: "16", titulo: "Engenharia Assistida por IA",
-        descricao: "Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 16/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver site publicado", url: "https://alegrete.org", icon: "🌐", tipo: "site" },
-        ]
-    },
-    {
-        numero: "17", titulo: "Homologação de Produção",
-        descricao: "Publicação do link oficial e print do ambiente implantado em produção.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 17/", icon: "📁", tipo: "pasta" },
-            // { label: "Site em produção", url: "https://meusite.com", icon: "🌐", tipo: "site" },
-        ]
-    },
-    {
-        numero: "18", titulo: "Portfólio Final (V1)",
-        descricao: "Consolidação do Projeto Final da Disciplina estruturado no GitHub.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa 18/", icon: "📁", tipo: "pasta" },
-            // { label: "Repositório GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
-        ]
-    },
-];
+    // Configuração dos caminhos relativos correspondendo aos nomes exatos das pastas no seu repositório
+    const DADOS_TAREFAS = [
+        {
+            id: "01",
+            titulo: "Seleção de Problemas",
+            descricao: "Análise estratégica e seleção de 15 exercícios de lógica aplicada.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 1/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "02",
+            titulo: "Base Algorítmica",
+            descricao: "Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 2/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "03",
+            titulo: "Formulação de Exercícios",
+            descricao: "Formulação completa de uma lista estruturada com 10 novos exercícios.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 3/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "04",
+            titulo: "Resolução Analítica",
+            descricao: "Resolução de 5 exercícios analíticos diretamente no papel.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 4/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "05",
+            titulo: "Estruturas em Python",
+            descricao: "Implementação nativa de listas/vetores/arrays em Python.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 5/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "06",
+            titulo: "Domínio de Vetores",
+            descricao: "Formulação e Resolução avançada de Problemas complexos com Vetores.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 6/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "07",
+            titulo: "Refatoração Visual",
+            descricao: "Desenvolvimento iterativo até obter resultados visuais consistentes.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 7/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "08",
+            titulo: "Interdisciplinaridade",
+            descricao: "Resolução analítica de problemas vindos de outras disciplinas.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 8/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "09",
+            titulo: "Desafio de Engenharia I",
+            descricao: "Análise e entrega do primeiro problema de engenharia complexo proposto.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 9/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "10",
+            titulo: "Desafio de Engenharia II",
+            descricao: "Análise e entrega do segundo problema de engenharia complexo proposto.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 10/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "11",
+            titulo: "Aplicação Prática",
+            descricao: "Escolher e resolver um problema de modelagem voltado à engenharia.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 11/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "12",
+            titulo: "Otimização",
+            descricao: "Evolução técnica e refatoração arquitetural da solução anterior.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 12/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "13",
+            titulo: "UX e Entrevistas",
+            descricao: "Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 13/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "14",
+            titulo: "Modularização & LLMs",
+            descricao: "Modularização de Código e Avaliação crítica de Large Language Models.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 14/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "15",
+            titulo: "Auditoria Web: alegrete.org",
+            descricao: "Auditoria crítica de usabilidade e SEO do site alegrete.org.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 15/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "16",
+            titulo: "Engenharia Assistida por IA",
+            descricao: "Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 16/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "17",
+            titulo: "Homologação de Produção",
+            descricao: "Publicação do link oficial e print do ambiente implantado em produção.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 17/", icon: "📁", tipo: "pasta" }]
+        },
+        {
+            id: "18",
+            titulo: "Portfólio Final (V1)",
+            descricao: "Consolidação do Projeto Final da Disciplina estruturado no GitHub.",
+            status: "concluida",
+            links: [{ label: "Pasta da Tarefa", url: "tarefa 18/", icon: "📁", tipo: "pasta" }]
+        }
+    ];
 
-function renderizarTarefas() {
-    const grid = document.getElementById('grid-tarefas');
-    grid.innerHTML = '';
-    TAREFAS.forEach(t => {
-        const linksHTML = t.links.map(l => {
-            const dis = !l.url ? ' desabilitado' : '';
-            const href = l.url ? `href="${l.url}"` : '';
-            const tgt = l.url && (l.url.startsWith('http') || l.url.endsWith('.pdf')) ? 'target="_blank" rel="noopener"' : '';
-            return `<a ${href} ${tgt} class="btn-link-tarefa${dis}"><span class="link-icon" aria-hidden="true">${l.icon}</span>${l.label}</a>`;
-        }).join('');
+    function renderizarGrid() {
+        const grid = document.getElementById('grid-tarefas');
+        grid.innerHTML = "";
 
-        const statusLabel = t.status === 'concluida' ? 'Concluída' : 'Pendente';
-        const statusCls   = t.status === 'pendente'  ? ' pendente' : '';
+        DADOS_TAREFAS.forEach(tarefa => {
+            const tile = document.createElement('div');
+            tile.className = `task-tile status-${tarefa.status}`;
+            
+            let htmlLinks = `<div class="links-container">`;
+            tarefa.links.forEach(link => {
+                if(link.url === "") {
+                    htmlLinks += `<a class="action-link disabled" href="javascript:void(0)">${link.icon} ${link.label} (Em breve)</a>`;
+                } else {
+                    const target = (link.tipo === 'pasta') ? '_self' : '_blank';
+                    htmlLinks += `<a class="action-link" href="${link.url}" target="${target}">${link.icon} ${link.label}</a>`;
+                }
+            });
+            htmlLinks += `</div>`;
 
-        const card = document.createElement('div');
-        card.className = `tarefa status-${t.status}`;
-        card.innerHTML = `
-            <div class="tarefa-conteudo">
-                <h2>Tarefa ${t.numero} — ${t.titulo}</h2>
-                <p>${t.descricao}</p>
-                <div class="tarefa-links">${linksHTML}</div>
-            </div>
-            <span class="status-tag${statusCls}">${statusLabel}</span>`;
-        grid.appendChild(card);
-    });
-    atualizarContadores();
-}
+            const labelStatus = tarefa.status === 'concluida' ? 'Concluída' : 'Pendente';
 
-function filtrarTarefas(status, botao) {
-    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
-    botao.classList.add('ativo');
-    document.querySelectorAll('.tarefa').forEach(t => {
-        t.style.display = (status === 'todas' || t.classList.contains('status-' + status)) ? 'flex' : 'none';
-    });
-}
+            tile.innerHTML = `
+                <div class="task-header">
+                    <h3>${tarefa.id}. ${tarefa.titulo}</h3>
+                    <p>${tarefa.descricao}</p>
+                    ${htmlLinks}
+                </div>
+                <div class="status-pill ${tarefa.status}">${labelStatus}</div>
+            `;
+            grid.appendChild(tile);
+        });
+    }
 
-function atualizarContadores() {
-    document.getElementById('count-todas').innerText = TAREFAS.length;
-    document.getElementById('count-concluida').innerText = TAREFAS.filter(t => t.status === 'concluida').length;
-    document.getElementById('count-pendente').innerText  = TAREFAS.filter(t => t.status === 'pendente').length;
-}
+    function filtrarTarefas(status, botao) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        botao.classList.add('active');
+        
+        const tiles = document.querySelectorAll('.task-tile');
+        tiles.forEach(tile => {
+            if (status === 'todas') {
+                tile.style.display = 'flex';
+            } else {
+                tile.style.display = tile.classList.contains('status-' + status) ? 'flex' : 'none';
+            }
+        });
+    }
 
-window.onload = renderizarTarefas;
+    function atualizarContadores() {
+        const total = DADOS_TAREFAS.length;
+        const concluidas = DADOS_TAREFAS.filter(t => t.status === 'concluida').length;
+        const pendentes = DADOS_TAREFAS.filter(t => t.status === 'pendente').length;
+
+        document.getElementById('count-todas').innerText = total;
+        document.getElementById('count-concluida').innerText = concluidas;
+        document.getElementById('count-pendente').innerText = pendentes;
+    }
+
+    window.onload = function() {
+        renderizarGrid();
+        atualizarContadores();
+    };
 </script>
 </body>
 </html>
