@@ -5,544 +5,554 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algoritmos e Programação - Unipampa - Fernando Dala</title>
     <style>
-        /* =========================================
-           PALETA DE CORES: Arctic Depths (Template)
-           ========================================= */
+        /* ── PALETA AZUL (extraída do wallpaper) ── */
         :root {
-            /* Cores Primárias (Template) */
-            --cor-ciano: #0db8d3;
-            --cor-azul-vibrante: #1b7fdc;
-            --cor-azul-profundo: #065b98;
-            --cor-azul-escuro: #193546;
+            --azul-profundo:   #0A1628;
+            --azul-escuro:     #0D2550;
+            --azul-medio:      #1A4A8A;
+            --azul-royal:      #1565C0;
+            --azul-vivo:       #1E88E5;
+            --azul-claro:      #64B5F6;
+            --azul-gelo:       #BBDEFB;
+            --azul-bruma:      #E3F2FD;
+            --branco:          #ffffff;
+            --texto-claro:     #E8F4FD;
+            --texto-secundario:#90CAF9;
 
-            /* Cores de Fundo e Texto */
-            --cor-branco: #ffffff;
-            --cor-texto-principal: #ffffff;
-            --cor-texto-secundario: rgba(255, 255, 255, 0.85);
-            
-            /* Degradê de Fundo */
-            --gradient-fundo: linear-gradient(135deg, var(--cor-azul-escuro) 0%, var(--cor-azul-profundo) 60%, var(--cor-ciano) 100%);
-            
-            /* Efeito Glassmorphism (Vidro) */
-            --glass-fundo: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-blur: blur(12px);
+            --gradient-fundo:  linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
+            --glass-fundo:     rgba(255,255,255,0.06);
+            --glass-fundo-hov: rgba(255,255,255,0.10);
+            --glass-border:    rgba(100,181,246,0.20);
+            --glass-border-hov:rgba(100,181,246,0.45);
+            --glass-blur:      blur(12px);
         }
 
-        /* =========================================
-           ESTILOS GERAIS
-           ========================================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif; }
 
         body {
             background: var(--gradient-fundo);
             background-attachment: fixed;
-            color: var(--cor-texto-principal);
+            color: var(--texto-claro);
             padding: 40px 20px;
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1250px;
-            margin: auto;
+        /* Estrelas/partículas decorativas */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(30,136,229,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(13,37,80,0.25) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(21,101,192,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* =========================================
-           CABECALHO (HEADER) - Estilo Glass
-           ========================================= */
+        .container { max-width: 1250px; margin: auto; position: relative; z-index: 1; }
+
+        /* ── HEADER ── */
         header {
             text-align: center;
             margin-bottom: 40px;
             background: var(--glass-fundo);
-            padding: 45px 30px;
-            border-radius: 20px;
+            padding: 50px 30px 40px;
+            border-radius: 24px;
             border: 1px solid var(--glass-border);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
             position: relative;
             overflow: hidden;
         }
 
-        /* Container do Logotipo Vetorial (Unipampa) */
-        .logo-unipampa {
-            margin-bottom: 25px;
+        /* Linha luminosa no topo — inspirada na curva do wallpaper */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--azul-claro) 40%, var(--branco) 60%, var(--azul-claro) 80%, transparent 100%);
+            opacity: 0.9;
         }
-        .logo-unipampa svg {
-            width: 250px;
+
+        /* ── LOGO UNIPAMPA REAL ── */
+        .logo-unipampa {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container com fundo branco para preservar as cores originais do logo */
+        .logo-wrapper {
+            background: rgba(255,255,255,0.96);
+            border-radius: 16px;
+            padding: 18px 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(100,181,246,0.3);
+        }
+
+        .logo-wrapper img {
+            width: 280px;
             height: auto;
             max-width: 100%;
+            display: block;
+        }
+
+        /* Fallback SVG (caso a imagem não carregue) */
+        .logo-svg-fallback {
+            display: none;
+            width: 280px;
+            height: auto;
         }
 
         h1 {
-            color: var(--cor-branco);
+            color: var(--branco);
             margin-bottom: 6px;
-            font-size: 2.5rem;
+            font-size: 2.4rem;
             font-weight: 800;
-            letter-spacing: -0.8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 20px rgba(30,136,229,0.4);
         }
 
         .disciplina {
-            font-size: 1.25rem;
-            color: var(--cor-ciano); /* Destaque na cor mais vibrante */
-            font-weight: 700;
-            margin-bottom: 18px;
-            letter-spacing: 0.5px;
+            font-size: 1.15rem;
+            color: var(--azul-claro);
+            font-weight: 600;
+            margin-bottom: 22px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
 
-        /* Cartão de Identificação do Aluno - Estilo Glass */
         .info-aluno {
-            display: inline-flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 12px 28px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 24px;
+            background: rgba(255,255,255,0.05);
+            padding: 12px 32px;
+            border-radius: 40px;
+            border: 1px solid rgba(100,181,246,0.2);
             margin-bottom: 35px;
-            font-size: 0.98rem;
+            font-size: 0.95rem;
         }
+        .info-aluno span { color: var(--texto-secundario); }
+        .info-aluno strong { color: var(--branco); font-weight: 700; }
 
-        .info-aluno span {
-            color: var(--cor-texto-secundario);
-        }
-
-        .info-aluno strong {
-            color: var(--cor-branco);
-            font-weight: 700;
-        }
-
-        /* =========================================
-           PAINEL DE CONTROLE (FILTROS)
-           ========================================= */
-        .dashboard-controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 5px;
-        }
+        /* ── FILTROS ── */
+        .dashboard-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
         .btn-filtro {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 11px 22px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(100,181,246,0.25);
+            padding: 10px 22px;
             border-radius: 30px;
-            font-size: 0.92rem;
-            font-weight: 700;
+            font-size: 0.9rem; font-weight: 700;
             cursor: pointer;
-            color: var(--cor-branco);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--azul-claro);
+            display: flex; align-items: center; gap: 10px;
             transition: all 0.3s ease;
         }
-
         .btn-filtro:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(100,181,246,0.12);
+            border-color: rgba(100,181,246,0.5);
             transform: translateY(-2px);
         }
-
-        /* Botão Ativo com Degradê do Template */
         .btn-filtro.ativo {
-            background: linear-gradient(135deg, var(--cor-azul-vibrante) 0%, var(--cor-ciano) 100%);
-            color: var(--cor-branco);
+            background: linear-gradient(135deg, var(--azul-royal) 0%, var(--azul-vivo) 100%);
+            color: var(--branco);
             border-color: transparent;
-            box-shadow: 0 4px 15px rgba(13, 184, 211, 0.4);
+            box-shadow: 0 4px 20px rgba(30,136,229,0.45);
         }
 
         .badge-count {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.82rem;
+            background: rgba(255,255,255,0.12);
+            padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;
         }
+        .btn-filtro.ativo .badge-count { background: rgba(255,255,255,0.2); }
 
-        /* =========================================
-           GRID DE TAREFAS - Estilo Glass
-           ========================================= */
-        .tarefas {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 25px;
-        }
+        /* ── GRID TAREFAS ── */
+        .tarefas { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 22px; }
 
         .tarefa {
             background: var(--glass-fundo);
-            padding: 32px;
+            padding: 30px;
             border-radius: 20px;
             border: 1px solid var(--glass-border);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            position: relative; overflow: hidden;
         }
 
-        /* Bordas Coloridas (Template) ao Hover */
         .tarefa::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--cor-azul-profundo) 0%, var(--cor-ciano) 100%);
-            transition: opacity 0.4s ease;
-            opacity: 0.7;
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--azul-medio) 0%, var(--azul-claro) 60%, rgba(255,255,255,0.6) 100%);
+            opacity: 0.5;
+            transition: opacity 0.35s ease;
+        }
+
+        /* Brilho sutil no canto superior direito */
+        .tarefa::after {
+            content: '';
+            position: absolute; top: -40px; right: -40px;
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, rgba(30,136,229,0.12) 0%, transparent 70%);
+            transition: opacity 0.35s ease;
+            opacity: 0;
         }
 
         .tarefa:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            border-color: var(--glass-border-hov);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(100,181,246,0.2);
+            background: var(--glass-fundo-hov);
         }
-        
-        .tarefa:hover::before {
-            opacity: 1;
-        }
+        .tarefa:hover::before { opacity: 1; }
+        .tarefa:hover::after { opacity: 1; }
 
         .tarefa-conteudo h2 {
-            font-size: 1.3rem;
-            margin-bottom: 14px;
-            color: var(--cor-branco);
-            font-weight: 700;
-            letter-spacing: -0.3px;
+            font-size: 1.2rem; margin-bottom: 10px;
+            color: var(--branco); font-weight: 700; letter-spacing: -0.2px;
         }
-
         .tarefa-conteudo p {
-            font-size: 0.98rem;
-            color: var(--cor-texto-secundario);
-            line-height: 1.65;
-            margin-bottom: 25px;
+            font-size: 0.93rem; color: var(--texto-secundario);
+            line-height: 1.6; margin-bottom: 18px;
         }
 
-        /* =========================================
-           BOTÕES E STATUS DENTRO DAS TAREFAS
-           ========================================= */
-        
-        /* Botão de Link com Contorno do Template */
+        /* ── LINKS ── */
+        .tarefa-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
         .btn-link-tarefa {
-            display: inline-block;
-            padding: 11px 20px;
-            background-color: transparent;
-            color: var(--cor-ciano);
-            border: 2px solid rgba(13, 184, 211, 0.3);
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 15px;
+            background-color: rgba(30,136,229,0.1);
+            color: var(--azul-claro);
+            border: 1px solid rgba(100,181,246,0.3);
             border-radius: 10px;
-            font-size: 0.88rem;
-            font-weight: 700;
+            font-size: 0.83rem; font-weight: 700;
             text-decoration: none;
-            margin-bottom: 25px;
-            transition: all 0.3s ease;
-            text-align: center;
+            transition: all 0.25s ease;
+            white-space: nowrap;
         }
-
         .btn-link-tarefa:hover {
-            background-color: var(--cor-ciano);
-            color: var(--cor-azul-escuro); /* Texto escuro sobre o fundo ciano */
-            border-color: var(--cor-ciano);
-            box-shadow: 0 4px 15px rgba(13, 184, 211, 0.3);
+            background-color: var(--azul-vivo);
+            color: var(--branco);
+            border-color: var(--azul-vivo);
+            box-shadow: 0 4px 16px rgba(30,136,229,0.4);
         }
+        .btn-link-tarefa.desabilitado {
+            opacity: 0.3; pointer-events: none;
+        }
+        .link-icon { font-size: 1em; line-height: 1; }
 
-        /* Tag de Status Concluído (Destaque do Template) */
+        /* ── STATUS TAG ── */
         .status-tag {
-            align-self: flex-start;
-            padding: 7px 18px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--cor-branco);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            background: linear-gradient(135deg, var(--cor-azul-vibrante) 0%, rgba(13, 184, 211, 0.6) 100%);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            align-self: flex-start; padding: 6px 16px; border-radius: 30px;
+            font-size: 0.75rem; font-weight: 700; color: var(--branco);
+            text-transform: uppercase; letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-vivo) 100%);
+            box-shadow: 0 2px 12px rgba(30,136,229,0.35);
+        }
+        .status-tag.pendente {
+            background: linear-gradient(135deg, #37474F 0%, #546E7A 100%);
+            box-shadow: none;
         }
 
-        /* =========================================
-           RODAPÉ (FOOTER)
-           ========================================= */
+        /* ── FOOTER ── */
         footer {
-            text-align: center;
-            margin-top: 70px;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.95rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center; margin-top: 70px;
+            color: rgba(144,202,249,0.6);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(100,181,246,0.12);
             padding-top: 25px;
         }
+        footer strong { color: var(--azul-claro); }
 
-        footer strong {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* =========================================
-           RESPONSIVIDADE ACADÊMICA
-           ========================================= */
+        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
-            h1 { font-size: 1.9rem; }
-            .disciplina { font-size: 1.1rem; }
-            body { padding: 25px 12px; }
-            
-            header { padding: 35px 20px; margin-bottom: 25px; }
-            .logo-unipampa svg { width: 200px; }
-            
-            .info-aluno { flex-direction: column; gap: 6px; padding: 15px; border-radius: 15px; width: 100%; }
-            .dashboard-controls { flex-direction: column; width: 100%; gap: 10px; }
+            h1 { font-size: 1.8rem; }
+            .disciplina { font-size: 1rem; }
+            body { padding: 20px 12px; }
+            header { padding: 35px 18px 28px; }
+            .logo-wrapper { padding: 14px 22px; }
+            .logo-wrapper img { width: 220px; }
+            .info-aluno { flex-direction: column; gap: 6px; padding: 14px; width: 100%; }
+            .dashboard-controls { flex-direction: column; width: 100%; }
             .btn-filtro { width: 100%; justify-content: space-between; }
-            
-            .tarefas { grid-template-columns: 1fr; gap: 15px; }
-            .tarefa { padding: 25px; }
+            .tarefas { grid-template-columns: 1fr; gap: 14px; }
+            .tarefa { padding: 22px; }
         }
     </style>
 </head>
 <body>
-
 <div class="container">
 
     <header>
+        <!-- LOGO UNIPAMPA: imagem real referenciada da pasta local -->
         <div class="logo-unipampa">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 110">
-                <g fill="white"> <path d="M25.2 21.5h16.3v42.9c0 9.8 5.7 15.3 14.8 15.3 9.1 0 14.8-5.5 14.8-15.3V21.5H87.3v43.4c0 21.3-13.8 32.7-31.1 32.7-17.5 0-31-11.4-31-32.7V21.5zM99.5 21.5h15.9l27.1 40.1V21.5h16.2v74.3h-14.6L115.8 54v41.8H99.5V21.5zM172.1 21.5h16.3v74.3h-16.3V21.5zM201.1 21.5H225c14.2 0 23.3 8 23.3 19.3 0 11.4-9.1 19.4-23.3 19.4h-7.6v35.6h-16.3V21.5zm23.4 24c5.1 0 7.8-2.4 7.8-5.2 0-2.9-2.7-5.1-7.8-5.1h-7.1v10.3h7.1zM291.6 21.5h14.7l22.6 74.3h-16.5l-4.5-16.1h-18.1l-4.5 16.1h-16.2l22.5-74.3zm12.3 44.5l-5.1-18.4-5.1 18.4h10.2zM342.1 21.5h20.4l14.2 33.1 14.2-33.1h19.9v74.3h-15.4V48.5l-13.6 30.8h-10.3l-13.6-30.8v47.2h-15.8V21.5zM425.1 21.5H449c14.2 0 23.3 8 23.3 19.3 0 11.4-9.1 19.4-23.3 19.4h-7.6v35.6h-16.3V21.5zm23.4 24c5.1 0 7.8-2.4 7.8-5.2 0-2.9-2.7-5.1-7.8-5.1h-7.1v10.3h7.1z"/>
-                    <rect x="25.2" y="5" width="425" height="7" fill="#0db8d3"/> <rect x="25.2" y="103" width="425" height="5" fill="#1b7fdc"/> </g>
-            </svg>
+            <div class="logo-wrapper">
+                <!--
+                    INSTRUÇÕES: Coloque o arquivo do logo (PNG ou JPG) na mesma pasta
+                    do index.html e ajuste o src abaixo para o nome correto do arquivo.
+                    Exemplo: src="logo_unipampa.png"
+                    Enquanto isso, o SVG vetorial simplificado serve como fallback.
+                -->
+                <img
+                    src="logo_unipampa.png"
+                    alt="Unipampa — Universidade Federal do Pampa"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                >
+                <!-- SVG fiel ao logo real (fallback se a imagem não carregar) -->
+                <svg class="logo-svg-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 130">
+                    <!-- Árvore (trifólio) verde -->
+                    <g fill="#3BA832">
+                        <!-- Bola esquerda -->
+                        <circle cx="185" cy="22" r="18"/>
+                        <!-- Bola direita -->
+                        <circle cx="215" cy="22" r="18"/>
+                        <!-- Bola central/topo -->
+                        <circle cx="200" cy="10" r="18"/>
+                        <!-- Tronco -->
+                        <rect x="196" y="34" width="8" height="16" rx="3"/>
+                    </g>
+
+                    <!-- "unipampa" em preto, tipografia bold condensada -->
+                    <text
+                        x="200" y="90"
+                        text-anchor="middle"
+                        font-family="Arial Black, Arial, sans-serif"
+                        font-weight="900"
+                        font-size="42"
+                        fill="#1A1A1A"
+                        letter-spacing="-1"
+                    >unipampa</text>
+
+                    <!-- Linha curva verde (onda) abaixo do texto -->
+                    <path
+                        d="M 30 102 Q 120 94 200 100 Q 280 106 390 98"
+                        stroke="#3BA832" stroke-width="3.5" fill="none"
+                        stroke-linecap="round"
+                    />
+
+                    <!-- "Universidade Federal do Pampa" -->
+                    <text
+                        x="200" y="125"
+                        text-anchor="middle"
+                        font-family="Arial, Helvetica, sans-serif"
+                        font-weight="700"
+                        font-size="14"
+                        fill="#1A1A1A"
+                        letter-spacing="0.3"
+                    >Universidade Federal do Pampa</text>
+                </svg>
+            </div>
         </div>
 
         <h1>Algoritmos e Programação</h1>
         <p class="disciplina">Portfólio de Entregas Digitais</p>
-        
+
         <div class="info-aluno">
             <span><strong>Aluno:</strong> Fernando Da Silva Dala</span>
             <span><strong>Matrícula:</strong> 2610100511</span>
         </div>
-        
+
         <div class="dashboard-controls">
             <button class="btn-filtro ativo" onclick="filtrarTarefas('todas', this)">
                 Todas <span class="badge-count" id="count-todas">0</span>
             </button>
             <button class="btn-filtro" onclick="filtrarTarefas('concluida', this)">
-                Concluídas <span class="badge-count" id="count-concluida" style="color: var(--cor-ciano)">0</span>
+                Concluídas <span class="badge-count" id="count-concluida">0</span>
+            </button>
+            <button class="btn-filtro" onclick="filtrarTarefas('pendente', this)">
+                Pendentes <span class="badge-count" id="count-pendente">0</span>
             </button>
         </div>
     </header>
 
-    <section class="tarefas" id="grid-tarefas">
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 01 - Seleção de Problemas</h2>
-                <p>Análise e seleção de 15 exercícios de lógica aplicada.</p>
-                <a href="tarefa 1/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 02 - Base Algorítmica</h2>
-                <p>Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.</p>
-                <a href="tarefa 2/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 03 - Formulação de Exercícios</h2>
-                <p>Formulação completa de uma lista estruturada com 10 novos exercícios.</p>
-                <a href="tarefa 3/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 04 - Resolução Analítica</h2>
-                <p>Resolução de 5 exercícios analíticos diretamente no papel.</p>
-                <a href="tarefa 4/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 05 - Estruturas em Python</h2>
-                <p>Implementação nativa de listas/vetores/arrays em Python.</p>
-                <a href="tarefa 5/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 06 - Domínio de Vetores</h2>
-                <p>Formulação e Resolução avançada de Problemas complexos com Vetores.</p>
-                <a href="tarefa 6/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 07 - Refatoração Visual</h2>
-                <p>Desenvolvimento iterativo até obter resultados visuais consistentes.</p>
-                <a href="tarefa 7/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 08 - Interdisciplinaridade</h2>
-                <p>Resolução analítica de problemas vindos de outras disciplinas.</p>
-                <a href="tarefa 8/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 09 - Desafio de Engenharia I</h2>
-                <p>Análise e entrega do primeiro problema de engenharia complexo proposto.</p>
-                <a href="tarefa 9/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 10 - Desafio de Engenharia II</h2>
-                <p>Análise e entrega do segundo problema de engenharia complexo proposto.</p>
-                <a href="tarefa 10/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 11 - Aplicação Prática</h2>
-                <p>Escolher e resolver um problem de modelagem voltado à engenharia.</p>
-                <a href="tarefa 11/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 12 - Otimização</h2>
-                <p>Evolução técnica e refatoração arquitetural da solução anterior.</p>
-                <a href="tarefa 12/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 13 - UX e Entrevistas</h2>
-                <p>Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.</p>
-                <a href="tarefa 13/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 14 - Modularização & LLMs</h2>
-                <p>Modularização de Código e Avaliação crítica de Large Language Models.</p>
-                <a href="tarefa 14/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 15 - Auditoria Web: alegrete.org</h2>
-                <p>Auditoria crítica de usabilidade e SEO do site alegrete.org.</p>
-                <a href="tarefa 15/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 16 - Engenharia Assistida por IA</h2>
-                <p>Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.</p>
-                <a href="tarefa 16/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 17 - Homologação de Produção</h2>
-                <p>Publicação do link oficial e print do ambiente implantado em produção.</p>
-                <a href="tarefa 17/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-        <div class="tarefa status-concluida">
-            <div class="tarefa-conteudo">
-                <h2>Tarefa 18 - Portfólio Final (V1)</h2>
-                <p>Consolidação do Projeto Final da Disciplina estruturado no GitHub.</p>
-                <a href="tarefa 18/" class="btn-link-tarefa" target="_blank">📁 Acessar Pasta</a>
-            </div>
-            <span class="status-tag">Concluída</span>
-        </div>
-
-    </section>
+    <section class="tarefas" id="grid-tarefas"></section>
 
     <footer>
         <p><strong>Universidade Federal do Pampa &bull; Campus Alegrete</strong> &bull; Engenharia &copy; 2026</p>
     </footer>
-
 </div>
 
-<script {nonce}>
-    // Função Dinâmica de Filtro e Atualização de Estado
-    function filtrarTarefas(status, botao) {
-        // Atualiza estilo dos botões (Controle)
-        document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
-        botao.classList.add('ativo');
+<script>
+const TAREFAS = [
+    {
+        numero: "01", titulo: "Seleção de Problemas",
+        descricao: "Análise e seleção de 15 exercícios de lógica aplicada.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 1/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "02", titulo: "Base Algorítmica",
+        descricao: "Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 2/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "03", titulo: "Formulação de Exercícios",
+        descricao: "Formulação completa de uma lista estruturada com 10 novos exercícios.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 3/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "04", titulo: "Resolução Analítica",
+        descricao: "Resolução de 5 exercícios analíticos diretamente no papel.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 4/", icon: "📁", tipo: "pasta" },
+            // { label: "PDF digitalizado", url: "tarefa 4/resolucao.pdf", icon: "📄", tipo: "pdf" },
+        ]
+    },
+    {
+        numero: "05", titulo: "Estruturas em Python",
+        descricao: "Implementação nativa de listas/vetores/arrays em Python.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 5/", icon: "📁", tipo: "pasta" },
+            // { label: "Ver no GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
+        ]
+    },
+    {
+        numero: "06", titulo: "Domínio de Vetores",
+        descricao: "Formulação e Resolução avançada de problemas complexos com Vetores.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 6/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "07", titulo: "Refatoração Visual",
+        descricao: "Desenvolvimento iterativo até obter resultados visuais consistentes.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 7/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "08", titulo: "Interdisciplinaridade",
+        descricao: "Resolução analítica de problemas vindos de outras disciplinas.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 8/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "09", titulo: "Desafio de Engenharia I",
+        descricao: "Análise e entrega do primeiro problema de engenharia complexo proposto.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 9/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "10", titulo: "Desafio de Engenharia II",
+        descricao: "Análise e entrega do segundo problema de engenharia complexo proposto.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 10/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "11", titulo: "Aplicação Prática",
+        descricao: "Escolher e resolver um problema de modelagem voltado à engenharia.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 11/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "12", titulo: "Otimização",
+        descricao: "Evolução técnica e refatoração arquitetural da solução anterior.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 12/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "13", titulo: "UX e Entrevistas",
+        descricao: "Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 13/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "14", titulo: "Modularização & LLMs",
+        descricao: "Modularização de Código e Avaliação crítica de Large Language Models.",
+        status: "concluida",
+        links: [{ label: "Pasta da Tarefa", url: "tarefa 14/", icon: "📁", tipo: "pasta" }]
+    },
+    {
+        numero: "15", titulo: "Auditoria Web: alegrete.org",
+        descricao: "Auditoria crítica de usabilidade e SEO do site alegrete.org.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 15/", icon: "📁", tipo: "pasta" },
+            // { label: "Ver relatório", url: "tarefa 15/relatorio.pdf", icon: "📄", tipo: "pdf" },
+        ]
+    },
+    {
+        numero: "16", titulo: "Engenharia Assistida por IA",
+        descricao: "Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 16/", icon: "📁", tipo: "pasta" },
+            // { label: "Ver site publicado", url: "https://alegrete.org", icon: "🌐", tipo: "site" },
+        ]
+    },
+    {
+        numero: "17", titulo: "Homologação de Produção",
+        descricao: "Publicação do link oficial e print do ambiente implantado em produção.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 17/", icon: "📁", tipo: "pasta" },
+            // { label: "Site em produção", url: "https://meusite.com", icon: "🌐", tipo: "site" },
+        ]
+    },
+    {
+        numero: "18", titulo: "Portfólio Final (V1)",
+        descricao: "Consolidação do Projeto Final da Disciplina estruturado no GitHub.",
+        status: "concluida",
+        links: [
+            { label: "Pasta da Tarefa", url: "tarefa 18/", icon: "📁", tipo: "pasta" },
+            // { label: "Repositório GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
+        ]
+    },
+];
 
-        // Filtra os cards das tarefas no Grid
-        const tarefas = document.querySelectorAll('.tarefa');
-        tarefas.forEach(tarefa => {
-            if (status === 'todas') {
-                tarefa.style.display = 'flex';
-            } else {
-                // Filtra baseado na classe status-concluida
-                if (tarefa.classList.contains('status-' + status)) {
-                    tarefa.style.display = 'flex';
-                } else {
-                    tarefa.style.display = 'none';
-                }
-            }
-        });
-    }
+function renderizarTarefas() {
+    const grid = document.getElementById('grid-tarefas');
+    grid.innerHTML = '';
+    TAREFAS.forEach(t => {
+        const linksHTML = t.links.map(l => {
+            const dis = !l.url ? ' desabilitado' : '';
+            const href = l.url ? `href="${l.url}"` : '';
+            const tgt = l.url && (l.url.startsWith('http') || l.url.endsWith('.pdf')) ? 'target="_blank" rel="noopener"' : '';
+            return `<a ${href} ${tgt} class="btn-link-tarefa${dis}"><span class="link-icon" aria-hidden="true">${l.icon}</span>${l.label}</a>`;
+        }).join('');
 
-    // Calcula os contadores ao carregar a página automaticamente
-    function atualizarContadores() {
-        const total = document.querySelectorAll('.tarefa').length;
-        const concluidas = document.querySelectorAll('.status-concluida').length;
+        const statusLabel = t.status === 'concluida' ? 'Concluída' : 'Pendente';
+        const statusCls   = t.status === 'pendente'  ? ' pendente' : '';
 
-        // Atualiza a interface (Dashboard)
-        document.getElementById('count-todas').innerText = total;
-        document.getElementById('count-concluida').innerText = concluidas;
-    }
+        const card = document.createElement('div');
+        card.className = `tarefa status-${t.status}`;
+        card.innerHTML = `
+            <div class="tarefa-conteudo">
+                <h2>Tarefa ${t.numero} — ${t.titulo}</h2>
+                <p>${t.descricao}</p>
+                <div class="tarefa-links">${linksHTML}</div>
+            </div>
+            <span class="status-tag${statusCls}">${statusLabel}</span>`;
+        grid.appendChild(card);
+    });
+    atualizarContadores();
+}
 
-    // Executa no carregamento
-    window.onload = atualizarContadores;
+function filtrarTarefas(status, botao) {
+    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
+    botao.classList.add('ativo');
+    document.querySelectorAll('.tarefa').forEach(t => {
+        t.style.display = (status === 'todas' || t.classList.contains('status-' + status)) ? 'flex' : 'none';
+    });
+}
+
+function atualizarContadores() {
+    document.getElementById('count-todas').innerText = TAREFAS.length;
+    document.getElementById('count-concluida').innerText = TAREFAS.filter(t => t.status === 'concluida').length;
+    document.getElementById('count-pendente').innerText  = TAREFAS.filter(t => t.status === 'pendente').length;
+}
+
+window.onload = renderizarTarefas;
 </script>
-
 </body>
 </html>
