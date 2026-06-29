@@ -1,19 +1,32 @@
-tensao_inicial = float(input("Tensao inicial (V): "))
-distancia_total = float(input("Distancia total (km): "))
-tensao = tensao_inicial
+N = int(input("Quantos movimentos? "))
+saldo = 0
+movimentos = []
 
-print(f"\nDistancia (km) | Tensao (V) | Status")
-print("-" * 45)
-
-for km in range(1, int(distancia_total) + 1):
-    tensao *= 0.995
-    if tensao < tensao_inicial * 0.90:
-        status = "CRITICO (<90%)"
-    elif tensao < tensao_inicial * 0.95:
-        status = "ALERTA (<95%)"
+for i in range(N):
+    print(f"\nMovimento {i+1}:")
+    tipo = input("Tipo (entrada/saida): ").lower()
+    quantidade = float(input("Quantidade: "))
+    
+    if tipo == "entrada":
+        saldo += quantidade
+        movimentos.append(("ENTRADA", quantidade))
+    elif tipo == "saida":
+        if quantidade > saldo:
+            print("ERRO: Quantidade maior que o saldo!")
+            continue
+        saldo -= quantidade
+        movimentos.append(("SAIDA", quantidade))
     else:
-        status = "Normal"
-    print(f"{km:13d} | {tensao:9.2f} | {status}")
+        print("Tipo invalido!")
+        continue
+        
+    print(f"Saldo atual: {saldo:.0f}")
+    if saldo < 10:
+        print("ALERTA: Estoque abaixo de 10 unidades!")
 
-print(f"\nTensao final: {tensao:.2f} V")
-print(f"Perda total: {(1 - tensao/tensao_inicial)*100:.1f}%")
+print("\nRELATORIO FINAL")
+print("-" * 30)
+for i, (tipo, qtd) in enumerate(movimentos):
+    print(f"{i+1:2d}. {tipo:7s}: {qtd:6.0f}")
+print("-" * 30)
+print(f"Saldo final: {saldo:.0f} unidades")
