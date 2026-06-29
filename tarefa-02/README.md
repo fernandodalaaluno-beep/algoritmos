@@ -1,26 +1,29 @@
-# Tarefa 02 — Estruturas Condicionais e de Decisão
+# Tarefa 02 — Estruturas de Controlo, Repetição e Simulações
 
-Este módulo documenta a resolução prática de problemas utilizando estruturas de fluxo condicional (`if`, `elif`, `else`) na linguagem Python.
+**Estudante:** Fernando Da Silva Dala  
+**Matrícula:** 2610100511  
+
+Este módulo apresenta a resolução prática de 11 algoritmos aplicados a problemas lógicos, simulações de Engenharia e Estruturas de Dados utilizando a linguagem Python. Os blocos abaixo contêm o código-fonte vivo e copiável de cada aplicação.
 
 ---
 
-## 📋 Enunciado do Problema
-Desenvolver algoritmos que permitam ao sistema tomar decisões lógicas automáticas com base em dados de entrada fornecidos pelo usuário. Os exercícios cobrem validações numéricas, intervalos de dados e testes de condições lógicas compostas.
+## 5. Gerador de Tabela ASCII
+**Descrição:** Algoritmo que percorre os códigos decimais de 32 a 126 na tabela ASCII, convertendo-os em caracteres legíveis e classificando-os dinamicamente entre letras, dígitos ou símbolos.
 
-## 💡 Ideia da Solução
-A solução foi estruturada utilizando a sintaxe nativa do Python para desvios condicionais:
-1. **Entrada de Dados:** Captura dos valores através da função `input()` e conversão para os tipos adequados (`int` ou `float`).
-2. **Processamento Sintático:** Aplicação de blocos condicionais encadeados para testar múltiplas variáveis de forma otimizada, evitando redundâncias em memória.
-3. **Saída:** Retorno claro ao usuário final sobre a condição validada.
-
-## 💻 Exemplo de Implementação Estrutural
 ```python
-# Estrutura base utilizada nas resoluções
-valor = float(input("Digite um número: "))
+print("Tabela ASCII (32 a 126):")  
+print("-" * 40)  
+print("Código | Caractere | Tipo")  
+print("-" * 40)  
 
-if valor > 0:
-    print("O valor inserido é Positivo.")
-elif valor < 0:
-    print("O valor inserido é Negativo.")
-else:
-    print("O valor inserido é Nulo (Zero).")
+for codigo in range(32, 127):  
+    caractere = chr(codigo)  
+    if caractere.isalpha():  
+        tipo = "Letra"  
+    elif caractere.isdigit():  
+        tipo = "Dígito"  
+    else:  
+        tipo = "Símbolo"  
+    print(f"{codigo:6d} | {caractere:^9} | {tipo}")
+
+
