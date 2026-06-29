@@ -41,6 +41,8 @@ for codigo in range(32, 127):
         tipo = "Símbolo"  
     print(f"{codigo:6d} | {caractere:^9} | {tipo}")
 
+   ---
+
 ## 6 Dimensionamento de Cabo Elétrico
 corrente = float(input("Digite a corrente elétrica (A): "))  
 
