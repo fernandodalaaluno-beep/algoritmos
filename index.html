@@ -5,554 +5,234 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algoritmos e Programação - Unipampa - Fernando Dala</title>
     <style>
-        /* ── PALETA AZUL (extraída do wallpaper) ── */
         :root {
-            --azul-profundo:   #0A1628;
-            --azul-escuro:     #0D2550;
-            --azul-medio:      #1A4A8A;
-            --azul-royal:      #1565C0;
-            --azul-vivo:       #1E88E5;
-            --azul-claro:      #64B5F6;
-            --azul-gelo:       #BBDEFB;
-            --azul-bruma:      #E3F2FD;
-            --branco:          #ffffff;
-            --texto-claro:     #E8F4FD;
-            --texto-secundario:#90CAF9;
-
-            --gradient-fundo:  linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
-            --glass-fundo:     rgba(255,255,255,0.06);
-            --glass-fundo-hov: rgba(255,255,255,0.10);
-            --glass-border:    rgba(100,181,246,0.20);
-            --glass-border-hov:rgba(100,181,246,0.45);
-            --glass-blur:      blur(12px);
+            --azul-profundo:    #071028;
+            --azul-escuro:      #0D2550;
+            --azul-medio:       #1A4A8A;
+            --azul-royal:       #1565C0;
+            --azul-vivo:        #1E88E5;
+            --azul-claro:       #64B5F6;
+            --branco:           #ffffff;
+            --texto-claro:      #E8F4FD;
+            --texto-secundario: #90CAF9;
+            --glass-fundo:      rgba(255,255,255,0.06);
+            --glass-fundo-hov:  rgba(255,255,255,0.11);
+            --glass-border:     rgba(100,181,246,0.20);
+            --glass-border-hov: rgba(100,181,246,0.50);
+            --glass-blur:       blur(14px);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif; }
-
+        * { margin:0; padding:0; box-sizing:border-box;
+            font-family:'SF Pro Display',system-ui,-apple-system,sans-serif; }
         body {
-            background: var(--gradient-fundo);
+            background: linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
             background-attachment: fixed;
             color: var(--texto-claro);
             padding: 40px 20px;
             line-height: 1.6;
             min-height: 100vh;
         }
-
-        /* Estrelas/partículas decorativas */
         body::before {
-            content: '';
-            position: fixed; inset: 0;
+            content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
             background:
-                radial-gradient(circle at 20% 30%, rgba(30,136,229,0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(13,37,80,0.25) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(21,101,192,0.08) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 20% 25%, rgba(30,136,229,.13) 0%, transparent 50%),
+                radial-gradient(circle at 80% 75%, rgba(13,37,80,.28) 0%, transparent 50%);
         }
-
-        .container { max-width: 1250px; margin: auto; position: relative; z-index: 1; }
-
-        /* ── HEADER ── */
+        .container { max-width:1250px; margin:auto; position:relative; z-index:1; }
         header {
-            text-align: center;
-            margin-bottom: 40px;
+            text-align:center; margin-bottom:40px;
             background: var(--glass-fundo);
-            padding: 50px 30px 40px;
+            padding: 50px 30px 42px;
             border-radius: 24px;
             border: 1px solid var(--glass-border);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 8px 48px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07);
+            position:relative; overflow:hidden;
         }
-
-        /* Linha luminosa no topo — inspirada na curva do wallpaper */
         header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent 0%, var(--azul-claro) 40%, var(--branco) 60%, var(--azul-claro) 80%, transparent 100%);
-            opacity: 0.9;
+            content:''; position:absolute; top:0; left:0; right:0; height:3px;
+            background: linear-gradient(90deg, transparent 0%, var(--azul-claro) 35%, #fff 55%, var(--azul-claro) 75%, transparent 100%);
         }
-
-        /* ── LOGO UNIPAMPA REAL ── */
-        .logo-unipampa {
-            margin-bottom: 28px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Container com fundo branco para preservar as cores originais do logo */
+        .logo-unipampa { margin-bottom:30px; display:flex; justify-content:center; }
         .logo-wrapper {
-            background: rgba(255,255,255,0.96);
-            border-radius: 16px;
-            padding: 18px 32px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(100,181,246,0.3);
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px; padding: 20px 36px;
+            display: inline-flex; align-items: center; justify-content:center;
+            box-shadow: 0 6px 32px rgba(0,0,0,.45), 0 0 0 1px rgba(100,181,246,.35);
         }
-
-        .logo-wrapper img {
-            width: 280px;
-            height: auto;
-            max-width: 100%;
-            display: block;
-        }
-
-        /* Fallback SVG (caso a imagem não carregue) */
-        .logo-svg-fallback {
-            display: none;
-            width: 280px;
-            height: auto;
-        }
-
-        h1 {
-            color: var(--branco);
-            margin-bottom: 6px;
-            font-size: 2.4rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 20px rgba(30,136,229,0.4);
-        }
-
-        .disciplina {
-            font-size: 1.15rem;
-            color: var(--azul-claro);
-            font-weight: 600;
-            margin-bottom: 22px;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
+        .logo-wrapper svg { width:300px; height:auto; max-width:100%; display:block; }
+        h1 { color: var(--branco); margin-bottom:6px; font-size:2.4rem; font-weight:800; letter-spacing:-0.5px; text-shadow: 0 2px 24px rgba(30,136,229,.45); }
+        .disciplina { font-size:1.1rem; color:var(--azul-claro); font-weight:600; margin-bottom:22px; letter-spacing:1px; text-transform:uppercase; }
         .info-aluno {
-            display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 24px;
-            background: rgba(255,255,255,0.05);
-            padding: 12px 32px;
-            border-radius: 40px;
-            border: 1px solid rgba(100,181,246,0.2);
-            margin-bottom: 35px;
-            font-size: 0.95rem;
+            display:inline-flex; flex-wrap:wrap; justify-content:center; gap:24px;
+            background:rgba(255,255,255,.05); padding:12px 32px; border-radius:40px;
+            border:1px solid rgba(100,181,246,.18); margin-bottom:35px; font-size:.95rem;
         }
-        .info-aluno span { color: var(--texto-secundario); }
-        .info-aluno strong { color: var(--branco); font-weight: 700; }
-
-        /* ── FILTROS ── */
-        .dashboard-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-
+        .info-aluno span  { color:var(--texto-secundario); }
+        .info-aluno strong{ color:var(--branco); font-weight:700; }
+        .dashboard-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
         .btn-filtro {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(100,181,246,0.25);
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-size: 0.9rem; font-weight: 700;
-            cursor: pointer;
-            color: var(--azul-claro);
-            display: flex; align-items: center; gap: 10px;
-            transition: all 0.3s ease;
+            background:rgba(255,255,255,.06); border:1px solid rgba(100,181,246,.25);
+            padding:10px 22px; border-radius:30px; font-size:.9rem; font-weight:700;
+            cursor:pointer; color:var(--azul-claro);
+            display:flex; align-items:center; gap:10px; transition:all .3s ease;
         }
-        .btn-filtro:hover {
-            background: rgba(100,181,246,0.12);
-            border-color: rgba(100,181,246,0.5);
-            transform: translateY(-2px);
-        }
+        .btn-filtro:hover { background:rgba(100,181,246,.12); border-color:rgba(100,181,246,.5); transform:translateY(-2px); }
         .btn-filtro.ativo {
-            background: linear-gradient(135deg, var(--azul-royal) 0%, var(--azul-vivo) 100%);
-            color: var(--branco);
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(30,136,229,0.45);
+            background:linear-gradient(135deg, var(--azul-royal) 0%, var(--azul-vivo) 100%);
+            color:var(--branco); border-color:transparent;
+            box-shadow:0 4px 20px rgba(30,136,229,.45);
         }
-
-        .badge-count {
-            background: rgba(255,255,255,0.12);
-            padding: 2px 10px; border-radius: 12px; font-size: 0.8rem;
-        }
-        .btn-filtro.ativo .badge-count { background: rgba(255,255,255,0.2); }
-
-        /* ── GRID TAREFAS ── */
-        .tarefas { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 22px; }
-
+        .badge-count { background:rgba(255,255,255,.12); padding:2px 10px; border-radius:12px; font-size:.8rem; }
+        .btn-filtro.ativo .badge-count { background:rgba(255,255,255,.22); }
+        .tarefas { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:22px; }
         .tarefa {
-            background: var(--glass-fundo);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            display: flex; flex-direction: column; justify-content: space-between;
-            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-            position: relative; overflow: hidden;
+            background:var(--glass-fundo); padding:30px; border-radius:20px;
+            border:1px solid var(--glass-border); backdrop-filter:var(--glass-blur);
+            -webkit-backdrop-filter:var(--glass-blur);
+            display:flex; flex-direction:column; justify-content:space-between;
+            transition:all .35s cubic-bezier(.4,0,.2,1);
+            box-shadow:0 4px 24px rgba(0,0,0,.3);
+            position:relative; overflow:hidden;
         }
-
         .tarefa::before {
-            content: '';
-            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--azul-medio) 0%, var(--azul-claro) 60%, rgba(255,255,255,0.6) 100%);
-            opacity: 0.5;
-            transition: opacity 0.35s ease;
+            content:''; position:absolute; top:0; left:0; width:100%; height:4px;
+            background:linear-gradient(90deg, var(--azul-medio) 0%, var(--azul-claro) 60%, rgba(255,255,255,.55) 100%);
+            opacity:.5; transition:opacity .35s ease;
         }
-
-        /* Brilho sutil no canto superior direito */
-        .tarefa::after {
-            content: '';
-            position: absolute; top: -40px; right: -40px;
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(30,136,229,0.12) 0%, transparent 70%);
-            transition: opacity 0.35s ease;
-            opacity: 0;
-        }
-
-        .tarefa:hover {
-            transform: translateY(-5px);
-            border-color: var(--glass-border-hov);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(100,181,246,0.2);
-            background: var(--glass-fundo-hov);
-        }
-        .tarefa:hover::before { opacity: 1; }
-        .tarefa:hover::after { opacity: 1; }
-
-        .tarefa-conteudo h2 {
-            font-size: 1.2rem; margin-bottom: 10px;
-            color: var(--branco); font-weight: 700; letter-spacing: -0.2px;
-        }
-        .tarefa-conteudo p {
-            font-size: 0.93rem; color: var(--texto-secundario);
-            line-height: 1.6; margin-bottom: 18px;
-        }
-
-        /* ── LINKS ── */
-        .tarefa-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-
+        .tarefa:hover { transform:translateY(-5px); background:var(--glass-fundo-hov); border-color:var(--glass-border-hov); box-shadow:0 14px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(100,181,246,.22); }
+        .tarefa:hover::before { opacity:1; }
+        .tarefa-conteudo h2 { font-size:1.18rem; margin-bottom:10px; color:var(--branco); font-weight:700; }
+        .tarefa-conteudo p  { font-size:.92rem; color:var(--texto-secundario); line-height:1.6; margin-bottom:18px; }
+        .tarefa-links { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
         .btn-link-tarefa {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 15px;
-            background-color: rgba(30,136,229,0.1);
-            color: var(--azul-claro);
-            border: 1px solid rgba(100,181,246,0.3);
-            border-radius: 10px;
-            font-size: 0.83rem; font-weight: 700;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            white-space: nowrap;
+            display:inline-flex; align-items:center; gap:6px; padding:8px 15px;
+            background:rgba(30,136,229,.12); color:var(--azul-claro);
+            border:1px solid rgba(100,181,246,.3); border-radius:10px;
+            font-size:.83rem; font-weight:700; text-decoration:none; white-space:nowrap;
+            transition:all .25s ease;
         }
-        .btn-link-tarefa:hover {
-            background-color: var(--azul-vivo);
-            color: var(--branco);
-            border-color: var(--azul-vivo);
-            box-shadow: 0 4px 16px rgba(30,136,229,0.4);
-        }
-        .btn-link-tarefa.desabilitado {
-            opacity: 0.3; pointer-events: none;
-        }
-        .link-icon { font-size: 1em; line-height: 1; }
-
-        /* ── STATUS TAG ── */
+        .btn-link-tarefa:hover { background:var(--azul-vivo); color:var(--branco); border-color:var(--azul-vivo); box-shadow:0 4px 16px rgba(30,136,229,.45); }
+        .btn-link-tarefa.desabilitado { opacity:.3; pointer-events:none; }
         .status-tag {
-            align-self: flex-start; padding: 6px 16px; border-radius: 30px;
-            font-size: 0.75rem; font-weight: 700; color: var(--branco);
-            text-transform: uppercase; letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-vivo) 100%);
-            box-shadow: 0 2px 12px rgba(30,136,229,0.35);
+            align-self:flex-start; padding:6px 16px; border-radius:30px;
+            font-size:.75rem; font-weight:700; color:var(--branco);
+            text-transform:uppercase; letter-spacing:1px;
+            background:linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-vivo) 100%);
+            box-shadow:0 2px 12px rgba(30,136,229,.35);
         }
-        .status-tag.pendente {
-            background: linear-gradient(135deg, #37474F 0%, #546E7A 100%);
-            box-shadow: none;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            text-align: center; margin-top: 70px;
-            color: rgba(144,202,249,0.6);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(100,181,246,0.12);
-            padding-top: 25px;
-        }
-        footer strong { color: var(--azul-claro); }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .disciplina { font-size: 1rem; }
-            body { padding: 20px 12px; }
-            header { padding: 35px 18px 28px; }
-            .logo-wrapper { padding: 14px 22px; }
-            .logo-wrapper img { width: 220px; }
-            .info-aluno { flex-direction: column; gap: 6px; padding: 14px; width: 100%; }
-            .dashboard-controls { flex-direction: column; width: 100%; }
-            .btn-filtro { width: 100%; justify-content: space-between; }
-            .tarefas { grid-template-columns: 1fr; gap: 14px; }
-            .tarefa { padding: 22px; }
+        .status-tag.pendente { background:linear-gradient(135deg,#37474F 0%,#546E7A 100%); box-shadow:none; }
+        footer { text-align:center; margin-top:70px; color:rgba(144,202,249,.55); font-size:.9rem; border-top:1px solid rgba(100,181,246,.12); padding-top:25px; }
+        footer strong { color:var(--azul-claro); }
+        @media (max-width:768px){
+            h1 { font-size:1.75rem; } body { padding:20px 12px; }
+            header { padding:32px 16px 26px; } .logo-wrapper { padding:14px 22px; } .logo-wrapper svg { width:220px; }
+            .info-aluno { flex-direction:column; gap:6px; padding:14px; width:100%; border-radius:16px; }
+            .dashboard-controls { flex-direction:column; width:100%; }
+            .btn-filtro { width:100%; justify-content:space-between; }
+            .tarefas { grid-template-columns:1fr; gap:14px; } .tarefa { padding:22px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-
     <header>
-        <!-- LOGO UNIPAMPA: imagem real referenciada da pasta local -->
         <div class="logo-unipampa">
             <div class="logo-wrapper">
-                <!--
-                    INSTRUÇÕES: Coloque o arquivo do logo (PNG ou JPG) na mesma pasta
-                    do index.html e ajuste o src abaixo para o nome correto do arquivo.
-                    Exemplo: src="logo_unipampa.png"
-                    Enquanto isso, o SVG vetorial simplificado serve como fallback.
-                -->
-                <img
-                    src="logo_unipampa.png"
-                    alt="Unipampa — Universidade Federal do Pampa"
-                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-                >
-                <!-- SVG fiel ao logo real (fallback se a imagem não carregar) -->
-                <svg class="logo-svg-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 130">
-                    <!-- Árvore (trifólio) verde -->
-                    <g fill="#3BA832">
-                        <!-- Bola esquerda -->
-                        <circle cx="185" cy="22" r="18"/>
-                        <!-- Bola direita -->
-                        <circle cx="215" cy="22" r="18"/>
-                        <!-- Bola central/topo -->
-                        <circle cx="200" cy="10" r="18"/>
-                        <!-- Tronco -->
-                        <rect x="196" y="34" width="8" height="16" rx="3"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+                    <g fill="#38A832">
+                        <circle cx="173" cy="20" r="16.5"/>
+                        <circle cx="200" cy="13" r="16.5"/>
+                        <circle cx="227" cy="20" r="16.5"/>
+                        <rect x="196" y="30" width="8" height="14" rx="3"/>
                     </g>
-
-                    <!-- "unipampa" em preto, tipografia bold condensada -->
-                    <text
-                        x="200" y="90"
-                        text-anchor="middle"
-                        font-family="Arial Black, Arial, sans-serif"
-                        font-weight="900"
-                        font-size="42"
-                        fill="#1A1A1A"
-                        letter-spacing="-1"
-                    >unipampa</text>
-
-                    <!-- Linha curva verde (onda) abaixo do texto -->
-                    <path
-                        d="M 30 102 Q 120 94 200 100 Q 280 106 390 98"
-                        stroke="#3BA832" stroke-width="3.5" fill="none"
-                        stroke-linecap="round"
-                    />
-
-                    <!-- "Universidade Federal do Pampa" -->
-                    <text
-                        x="200" y="125"
-                        text-anchor="middle"
-                        font-family="Arial, Helvetica, sans-serif"
-                        font-weight="700"
-                        font-size="14"
-                        fill="#1A1A1A"
-                        letter-spacing="0.3"
-                    >Universidade Federal do Pampa</text>
+                    <text x="200" y="82" text-anchor="middle"
+                        font-family="'Arial Black','Franklin Gothic Heavy','Impact',sans-serif"
+                        font-weight="900" font-size="46" fill="#1A1A1A" letter-spacing="-1.5">unipampa</text>
+                    <path d="M 22 92 Q 100 83 200 90 Q 300 97 378 88"
+                        stroke="#38A832" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                    <text x="200" y="114" text-anchor="middle"
+                        font-family="'Arial','Helvetica Neue',sans-serif"
+                        font-weight="700" font-size="13.5" fill="#1A1A1A" letter-spacing="0.2">Universidade Federal do Pampa</text>
                 </svg>
             </div>
         </div>
-
         <h1>Algoritmos e Programação</h1>
         <p class="disciplina">Portfólio de Entregas Digitais</p>
-
         <div class="info-aluno">
             <span><strong>Aluno:</strong> Fernando Da Silva Dala</span>
             <span><strong>Matrícula:</strong> 2610100511</span>
         </div>
-
         <div class="dashboard-controls">
-            <button class="btn-filtro ativo" onclick="filtrarTarefas('todas', this)">
-                Todas <span class="badge-count" id="count-todas">0</span>
-            </button>
-            <button class="btn-filtro" onclick="filtrarTarefas('concluida', this)">
-                Concluídas <span class="badge-count" id="count-concluida">0</span>
-            </button>
-            <button class="btn-filtro" onclick="filtrarTarefas('pendente', this)">
-                Pendentes <span class="badge-count" id="count-pendente">0</span>
-            </button>
+            <button class="btn-filtro ativo" onclick="filtrarTarefas('todas',this)">Todas <span class="badge-count" id="count-todas">0</span></button>
+            <button class="btn-filtro" onclick="filtrarTarefas('concluida',this)">Concluídas <span class="badge-count" id="count-concluida">0</span></button>
+            <button class="btn-filtro" onclick="filtrarTarefas('pendente',this)">Pendentes <span class="badge-count" id="count-pendente">0</span></button>
         </div>
     </header>
-
     <section class="tarefas" id="grid-tarefas"></section>
-
     <footer>
         <p><strong>Universidade Federal do Pampa &bull; Campus Alegrete</strong> &bull; Engenharia &copy; 2026</p>
     </footer>
 </div>
-
 <script>
-const TAREFAS = [
-    {
-        numero: "01", titulo: "Seleção de Problemas",
-        descricao: "Análise e seleção de 15 exercícios de lógica aplicada.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-01/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "02", titulo: "Base Algorítmica",
-        descricao: "Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-02/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "03", titulo: "Formulação de Exercícios",
-        descricao: "Formulação completa de uma lista estruturada com 10 novos exercícios.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-03/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "04", titulo: "Resolução Analítica",
-        descricao: "Resolução de 5 exercícios analíticos diretamente no papel.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-04/", icon: "📁", tipo: "pasta" },
-            // { label: "PDF digitalizado", url: "tarefa-04/resolucao.pdf", icon: "📄", tipo: "pdf" },
-        ]
-    },
-    {
-        numero: "05", titulo: "Estruturas em Python",
-        descricao: "Implementação nativa de listas/vetores/arrays em Python.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-05/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver no GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
-        ]
-    },
-    {
-        numero: "06", titulo: "Domínio de Vetores",
-        descricao: "Formulação e Resolução avançada de problemas complexos com Vetores.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-06/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "07", titulo: "Refatoração Visual",
-        descricao: "Desenvolvimento iterativo até obter resultados visuais consistentes.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-07/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "08", titulo: "Interdisciplinaridade",
-        descricao: "Resolução analítica de problemas vindos de outras disciplinas.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-08/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "09", titulo: "Desafio de Engenharia I",
-        descricao: "Análise e entrega do primeiro problema de engenharia complexo proposto.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-09/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "10", titulo: "Desafio de Engenharia II",
-        descricao: "Análise e entrega do segundo problema de engenharia complexo proposto.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-10/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "11", titulo: "Aplicação Prática",
-        descricao: "Escolher e resolver um problema de modelagem voltado à engenharia.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-11/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "12", titulo: "Otimização",
-        descricao: "Evolução técnica e refatoração arquitetural da solução anterior.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-12/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "13", titulo: "UX e Entrevistas",
-        descricao: "Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-13/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "14", titulo: "Modularização & LLMs",
-        descricao: "Modularização de Código e Avaliação crítica de Large Language Models.",
-        status: "concluida",
-        links: [{ label: "Pasta da Tarefa", url: "tarefa-14/", icon: "📁", tipo: "pasta" }]
-    },
-    {
-        numero: "15", titulo: "Auditoria Web: alegrete.org",
-        descricao: "Auditoria crítica de usabilidade e SEO do site alegrete.org.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-15/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver relatório", url: "tarefa-15/relatorio.pdf", icon: "📄", tipo: "pdf" },
-        ]
-    },
-    {
-        numero: "16", titulo: "Engenharia Assistida por IA",
-        descricao: "Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-16/", icon: "📁", tipo: "pasta" },
-            // { label: "Ver site publicado", url: "https://alegrete.org", icon: "🌐", tipo: "site" },
-        ]
-    },
-    {
-        numero: "17", titulo: "Homologação de Produção",
-        descricao: "Publicação do link oficial e print do ambiente implantado em produção.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-17/", icon: "📁", tipo: "pasta" },
-            // { label: "Site em produção", url: "https://meusite.com", icon: "🌐", tipo: "site" },
-        ]
-    },
-    {
-        numero: "18", titulo: "Portfólio Final (V1)",
-        descricao: "Consolidação do Projeto Final da Disciplina estruturado no GitHub.",
-        status: "concluida",
-        links: [
-            { label: "Pasta da Tarefa", url: "tarefa-18/", icon: "📁", tipo: "pasta" },
-            // { label: "Repositório GitHub", url: "https://github.com/...", icon: "🐙", tipo: "github" },
-        ]
-    },
+var TAREFAS = [
+    { numero:"01", titulo:"Seleção de Problemas", descricao:"Análise e seleção de 15 exercícios de lógica aplicada.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-01/", icon:"📁" }] },
+    { numero:"02", titulo:"Base Algorítmica", descricao:"Lista de 10 exercícios fundamentais da INTRODUÇÃO A ALGORITMOS.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-02/", icon:"📁" }] },
+    { numero:"03", titulo:"Formulação de Exercícios", descricao:"Formulação completa de uma lista estruturada com 10 novos exercícios.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-03/", icon:"📁" }] },
+    { numero:"04", titulo:"Resolução Analítica", descricao:"Resolução de 5 exercícios analíticos diretamente no papel.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-04/", icon:"📁" }] },
+    { numero:"05", titulo:"Estruturas em Python", descricao:"Implementação nativa de listas/vetores/arrays em Python.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-05/", icon:"📁" }] },
+    { numero:"06", titulo:"Domínio de Vetores", descricao:"Formulação e Resolução avançada de problemas complexos com Vetores.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-06/", icon:"📁" }] },
+    { numero:"07", titulo:"Refatoração Visual", descricao:"Desenvolvimento iterativo até obter resultados visuais consistentes.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-07/", icon:"📁" }] },
+    { numero:"08", titulo:"Interdisciplinaridade", descricao:"Resolução analítica de problemas vindos de outras disciplinas.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-08/", icon:"📁" }] },
+    { numero:"09", titulo:"Desafio de Engenharia I", descricao:"Análise e entrega do primeiro problema de engenharia complexo proposto.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-09/", icon:"📁" }] },
+    { numero:"10", titulo:"Desafio de Engenharia II", descricao:"Análise e entrega do segundo problema de engenharia complexo proposto.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-10/", icon:"📁" }] },
+    { numero:"11", titulo:"Aplicação Prática", descricao:"Escolher e resolver um problema de modelagem voltado à engenharia.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-11/", icon:"📁" }] },
+    { numero:"12", titulo:"Otimização", descricao:"Evolução técnica e refatoração arquitetural da solução anterior.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-12/", icon:"📁" }] },
+    { numero:"13", titulo:"UX e Entrevistas", descricao:"Briefing sincero e reflexivo sobre as entrevistas de UX realizadas.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-13/", icon:"📁" }] },
+    { numero:"14", titulo:"Modularização & LLMs", descricao:"Modularização de Código e Avaliação crítica de Large Language Models.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-14/", icon:"📁" }] },
+    { numero:"15", titulo:"Auditoria Web: alegrete.org", descricao:"Auditoria crítica de usabilidade e SEO do site alegrete.org.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-15/", icon:"📁" }] },
+    { numero:"16", titulo:"Engenharia Assistida por IA", descricao:"Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-16/", icon:"📁" }] },
+    { numero:"17", titulo:"Homologação de Produção", descricao:"Publicação do link oficial e print do ambiente implantado em produção.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-17/", icon:"📁" }] },
+    { numero:"18", titulo:"Portfólio Final (V1)", descricao:"Consolidação do Projeto Final da Disciplina estruturado no GitHub.", status:"concluida", links:[{ label:"Pasta da Tarefa", url:"tarefa-18/", icon:"📁" }] }
 ];
-
-function renderizarTarefas() {
-    const grid = document.getElementById('grid-tarefas');
-    grid.innerHTML = '';
-    TAREFAS.forEach(t => {
-        const linksHTML = t.links.map(l => {
-            const dis = !l.url ? ' desabilitado' : '';
-            const href = l.url ? `href="${l.url}"` : '';
-            const tgt = l.url && (l.url.startsWith('http') || l.url.endsWith('.pdf')) ? 'target="_blank" rel="noopener"' : '';
-            return `<a ${href} ${tgt} class="btn-link-tarefa${dis}"><span class="link-icon" aria-hidden="true">${l.icon}</span>${l.label}</a>`;
-        }).join('');
-
-        const statusLabel = t.status === 'concluida' ? 'Concluída' : 'Pendente';
-        const statusCls   = t.status === 'pendente'  ? ' pendente' : '';
-
-        const card = document.createElement('div');
-        card.className = `tarefa status-${t.status}`;
-        card.innerHTML = `
-            <div class="tarefa-conteudo">
-                <h2>Tarefa ${t.numero} — ${t.titulo}</h2>
-                <p>${t.descricao}</p>
-                <div class="tarefa-links">${linksHTML}</div>
-            </div>
-            <span class="status-tag${statusCls}">${statusLabel}</span>`;
+function isExterno(url){ return url && (url.indexOf('http')===0 || url.indexOf('.pdf')!==-1); }
+function renderizarTarefas(){
+    var grid=document.getElementById('grid-tarefas'); grid.innerHTML='';
+    for(var i=0;i<TAREFAS.length;i++){
+        var t=TAREFAS[i], linksHTML='';
+        for(var j=0;j<t.links.length;j++){
+            var l=t.links[j];
+            var dis=(!l.url)?' desabilitado':'';
+            var href=l.url?'href="'+l.url+'"':'';
+            var tgt=isExterno(l.url)?'target="_blank" rel="noopener noreferrer"':'';
+            linksHTML+='<a '+href+' '+tgt+' class="btn-link-tarefa'+dis+'"><span aria-hidden="true">'+l.icon+'</span>'+l.label+'</a>';
+        }
+        var statusLabel=t.status==='concluida'?'Concluída':'Pendente';
+        var statusCls=t.status==='pendente'?' pendente':'';
+        var card=document.createElement('div');
+        card.className='tarefa status-'+t.status;
+        card.innerHTML='<div class="tarefa-conteudo"><h2>Tarefa '+t.numero+' \u2014 '+t.titulo+'</h2><p>'+t.descricao+'</p><div class="tarefa-links">'+linksHTML+'</div></div><span class="status-tag'+statusCls+'">'+statusLabel+'</span>';
         grid.appendChild(card);
-    });
+    }
     atualizarContadores();
 }
-
-function filtrarTarefas(status, botao) {
-    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
+function filtrarTarefas(status,botao){
+    var btns=document.querySelectorAll('.btn-filtro');
+    for(var i=0;i<btns.length;i++) btns[i].classList.remove('ativo');
     botao.classList.add('ativo');
-    document.querySelectorAll('.tarefa').forEach(t => {
-        t.style.display = (status === 'todas' || t.classList.contains('status-' + status)) ? 'flex' : 'none';
-    });
+    var cards=document.querySelectorAll('.tarefa');
+    for(var i=0;i<cards.length;i++){
+        cards[i].style.display=(status==='todas'||cards[i].classList.contains('status-'+status))?'flex':'none';
+    }
 }
-
-function atualizarContadores() {
-    document.getElementById('count-todas').innerText = TAREFAS.length;
-    document.getElementById('count-concluida').innerText = TAREFAS.filter(t => t.status === 'concluida').length;
-    document.getElementById('count-pendente').innerText  = TAREFAS.filter(t => t.status === 'pendente').length;
+function atualizarContadores(){
+    var c=0,p=0;
+    for(var i=0;i<TAREFAS.length;i++){ if(TAREFAS[i].status==='concluida') c++; else p++; }
+    document.getElementById('count-todas').innerText=TAREFAS.length;
+    document.getElementById('count-concluida').innerText=c;
+    document.getElementById('count-pendente').innerText=p;
 }
-
-window.onload = renderizarTarefas;
+if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',renderizarTarefas); } else { renderizarTarefas(); }
 </script>
 </body>
 </html>
