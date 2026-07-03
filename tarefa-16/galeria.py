@@ -1,65 +1,183 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+from pathlib import Path
+from dataclasses import dataclass
+from html import escape
+from datetime import datetime
+from collections import Counter
+import json
+import pandas as pd
+import requests
+
+# =========================
+# CONFIGURAÇÃO
+# =========================
+@dataclass
+class Config:
+    csv: str = "fotos_alegrete.csv"
+    html: str = "portal_alegrete.html"
+    json_file: str = "catalogo.json"
+    relatorio: str = "relatorio_execucao.txt"
+    imagens: str = "imagens"
+    timeout: int = 10
+
+CFG = Config()
+Path(CFG.imagens).mkdir(exist_ok=True)
+
+COLUNAS = [
+    "titulo",
+    "categoria",
+    "imagem",
+    "legenda",
+    "localizacao",
+    "fonte"
+]
+
+# =========================
+# CSV
+# =========================
+def criar_csv_exemplo():
+    dados = [
+        {
+            "titulo": "Praça Getúlio Vargas",
+            "categoria": "Turismo",
+            "imagem": "https://picsum.photos/900/500?1",
+            "legenda": "Ponto central de Alegrete",
+            "localizacao": "Alegrete-RS",
+            "fonte": "https://picsum.photos"
+        }
+    ]
+    pd.DataFrame(dados).to_csv(
+        CFG.csv, index=False, encoding="utf-8"
+    )
+
+def carregar_dados():
+    arquivo = Path(CFG.csv)
+    if not arquivo.exists():
+        criar_csv_exemplo()
+        print("CSV criado automaticamente.")
+    df = pd.read_csv(arquivo)
+    faltando = set(COLUNAS) - set(df.columns)
+    if faltando:
+        raise ValueError(f"CSV inválido. Colunas faltando: {faltando}")
+    return df
+
+# =========================
+# IMAGENS (ROBUSTO)
+# =========================
+def baixar_imagem(sessao, url, nome):
+    destino = Path(CFG.imagens) / f"{nome}.jpg"
+    # cache local
+    if destino.exists():
+        return str(destino)
+    # arquivo local direto
+    if Path(url).exists():
+        return url
+    try:
+        r = sessao.get(url, timeout=CFG.timeout)
+        r.raise_for_status()
+        if "image" not in r.headers.get("Content-Type", ""):
+            return url
+        destino.write_bytes(r.content)
+        return str(destino)
+    except Exception:
+        return url
+
+# =========================
+# HTML
+# =========================
+def criar_card(item):
+    return f"""
+    <div class="card" data-cat="{escape(item['categoria'])}">
+        <img src="{item['arquivo']}" loading="lazy" onerror="this.src='https://picsum.photos/400/300?blur=2'">
+        <div class="conteudo">
+            <h3>{escape(item['titulo'])}</h3>
+            <p>{escape(item['legenda'])}</p>
+            <p>📍 {escape(item['localizacao'])}</p>
+            <small>{escape(item['categoria'])}</small>
+        </div>
+    </div>
+    """
+
+def gerar_html(cards, categorias, total):
+    data = datetime.now().strftime("%d/%m/%Y %H:%M")
+    options = "".join(f"<option>{c}</option>" for c in categorias)
+    return f"""<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarefa 16 — Engenharia Assistida por IA | Fernando Dala</title>
+    <meta charset="utf-8">
+    <title>Catálogo Alegrete</title>
     <style>
-        :root {
-            --azul-profundo: #071028; --azul-medio: #1A4A8A; --azul-royal: #1565C0; --azul-vivo: #1E88E5; --azul-claro: #64B5F6;
-            --branco: #ffffff; --texto-claro: #E8F4FD; --texto-secundario: #90CAF9;
-            --glass-fundo: rgba(255,255,255,0.06); --glass-fundo-hov: rgba(255,255,255,0.11);
-            --glass-border: rgba(100,181,246,0.20); --glass-border-hov: rgba(100,181,246,0.50); --glass-blur: blur(14px);
-        }
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'SF Pro Display',system-ui,-apple-system,sans-serif; }
-        body {
-            background: linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
-            background-attachment: fixed; color: var(--texto-claro); padding: 40px 20px; line-height:1.6; min-height:100vh;
-        }
-        .container { max-width:900px; margin:auto; }
-        .voltar {
-            display:inline-flex; align-items:center; gap:8px; color:var(--azul-claro); text-decoration:none;
-            font-weight:700; margin-bottom:24px; font-size:.95rem;
-        }
-        .voltar:hover { color:var(--branco); }
-        header {
-            background: var(--glass-fundo); padding:36px 30px; border-radius:20px; border:1px solid var(--glass-border);
-            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); margin-bottom:28px;
-        }
-        h1 { color:var(--branco); font-size:1.8rem; font-weight:800; margin-bottom:8px; }
-        .tag { color:var(--azul-claro); font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:.85rem; margin-bottom:14px; display:block; }
-        p.descricao { color:var(--texto-secundario); font-size:1rem; }
-        .arquivos { display:grid; gap:14px; }
-        .arquivo {
-            display:flex; align-items:center; gap:16px; background:var(--glass-fundo); padding:18px 22px; border-radius:14px;
-            border:1px solid var(--glass-border); text-decoration:none; color:var(--texto-claro);
-            transition:all .25s ease;
-        }
-        .arquivo:hover { background:var(--glass-fundo-hov); border-color:var(--glass-border-hov); transform:translateX(4px); }
-        .arquivo .icone { font-size:1.6rem; }
-        .arquivo .nome { font-weight:600; font-size:.98rem; word-break:break-word; }
-        footer { text-align:center; margin-top:40px; color:var(--texto-secundario); font-size:.85rem; }
+        body {{ font-family: Arial, sans-serif; padding: 30px; background-color: #f4f7f6; }}
+        .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }}
+        .card {{ background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }}
+        img {{ width: 100%; height: 250px; object-fit: cover; }}
+        .conteudo {{ padding: 16px; }}
+        .filtros {{ margin: 20px 0; }}
+        input, select {{ padding: 8px; margin-right: 10px; border-radius: 6px; border: 1px solid #ccc; }}
     </style>
 </head>
 <body>
-<div class="container">
-    <a class="voltar" href="../index.html">&larr; Voltar ao Portfólio</a>
-    <header>
-        <span class="tag">Tarefa 16</span>
-        <h1>Engenharia Assistida por IA</h1>
-        <p class="descricao">Desenvolvimento para Alegrete.org com suporte de ferramentas de IA.</p>
-    </header>
-    <section class="arquivos">
-        <a class="arquivo" href="desenvolvimento_assistido_por_ia_portal_alegrete.pdf" target="_blank" rel="noopener noreferrer">
-            <span class="icone">📕</span>
-            <span class="nome">desenvolvimento_assistido_por_ia_portal_alegrete.pdf</span>
-        </a>
-        <a class="arquivo" href="galeria.py" target="_blank" rel="noopener noreferrer">
-            <span class="icone">🐍</span>
-            <span class="nome">galeria.py (Código Python)</span>
-        </a>
-    </section>
-    <footer>Universidade Federal do Pampa &bull; Campus Alegrete &bull; Engenharia &copy; 2026</footer>
-</div>
+    <h1>Catálogo Digital – Alegrete-RS</h1>
+    <p>Total de itens: {total}</p>
+    <p>Atualizado em: {data}</p>
+    
+    <div class="filtros">
+        <input id="busca" placeholder="Buscar...">
+        <select id="categoria">
+            <option>Todas</option>
+            {options}
+        </select>
+    </div>
+
+    <div class="grid">
+        {"".join(cards)}
+    </div>
+
+    <script>
+        const busca = document.getElementById("busca");
+        const categoria = document.getElementById("categoria");
+        
+        function filtrar() {{
+            document.querySelectorAll(".card").forEach(card => {{
+                const texto = card.innerText.toLowerCase();
+                const okBusca = texto.includes(busca.value.toLowerCase());
+                const okCat = categoria.value === "Todas" || card.dataset.cat === categoria.value;
+                card.style.display = (okBusca && okCat) ? "block" : "none";
+            }});
+        }}
+        
+        busca.addEventListener("input", filtrar);
+        categoria.addEventListener("change", filtrar);
+    </script>
 </body>
-</html>
+</html>"""
+
+# =========================
+# EXECUÇÃO
+# =========================
+def executar():
+    df = carregar_dados()
+    resultado = []
+    with requests.Session() as sessao:
+        for i, row in df.iterrows():
+            print(f"Processando {i+1}/{len(df)}")
+            item = row.to_dict()
+            item["arquivo"] = baixar_imagem(sessao, item["imagem"], i)
+            resultado.append(item)
+            
+    cards = [criar_card(i) for i in resultado]
+    categorias = sorted(Counter(i["categoria"] for i in resultado))
+    
+    Path(CFG.html).write_text(
+        gerar_html(cards, categorias, len(resultado)), encoding="utf-8"
+    )
+    Path(CFG.json_file).write_text(
+        json.dumps(resultado, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    Path(CFG.relatorio).write_text(
+        f"PROJETO CONCLUÍDO\nItens: {len(resultado)}\nCategorias: {len(categorias)}\nData: {datetime.now()}\n", 
+        encoding="utf-8"
+    )
+    print("\nExecução finalizada com sucesso.")
+
+if __name__ == "__main__":
+    executar()
