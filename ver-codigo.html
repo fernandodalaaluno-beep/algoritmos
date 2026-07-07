@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizador de Código | Fernando Dala</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+:root {
+    --azul-profundo:#071028; --azul-medio:#1A4A8A; --azul-royal:#1565C0; --azul-vivo:#1E88E5; --azul-claro:#64B5F6;
+    --branco:#ffffff; --texto-claro:#E8F4FD; --texto-secundario:#90CAF9;
+    --glass-fundo:rgba(255,255,255,0.06); --glass-fundo-hov:rgba(255,255,255,0.11);
+    --glass-border:rgba(100,181,246,0.20); --glass-border-hov:rgba(100,181,246,0.50); --glass-blur:blur(14px);
+}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'SF Pro Display',system-ui,-apple-system,sans-serif; }
+body {
+    background: linear-gradient(160deg, #0D1B3E 0%, #0A2D6E 35%, #0D1F4E 65%, #071028 100%);
+    background-attachment: fixed; color: var(--texto-claro); padding: 40px 20px; line-height:1.6; min-height:100vh;
+}
+.container { max-width:980px; margin:auto; }
+.voltar {
+    display:inline-flex; align-items:center; gap:8px; color:var(--azul-claro); text-decoration:none;
+    font-weight:700; margin-bottom:24px; font-size:.95rem; background:none; border:none; cursor:pointer;
+}
+.voltar:hover { color:var(--branco); }
+header {
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    background: var(--glass-fundo); padding:26px 30px; border-radius:20px; border:1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); margin-bottom:24px;
+}
+h1 { color:var(--branco); font-size:1.3rem; font-weight:700; display:flex; align-items:center; gap:12px; word-break:break-word; }
+.badge { color:var(--azul-claro); font-weight:700; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; background:rgba(30,136,229,.15); padding:4px 12px; border-radius:20px; border:1px solid rgba(100,181,246,.3); white-space:nowrap; }
+.btn-copiar {
+    display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, var(--azul-royal) 0%, var(--azul-vivo) 100%);
+    color:var(--branco); border:none; padding:10px 20px; border-radius:12px; font-size:.88rem; font-weight:700;
+    cursor:pointer; transition:all .25s ease; box-shadow:0 4px 16px rgba(30,136,229,.35);
+}
+.btn-copiar:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(30,136,229,.5); }
+.codigo-wrapper {
+    background:#1e1e2e; border-radius:18px; border:1px solid var(--glass-border);
+    overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+.codigo-wrapper pre { margin:0 !important; padding:26px !important; overflow-x:auto; font-size:.92rem; }
+.codigo-wrapper code { font-family:'SF Mono','Fira Code','Consolas',monospace !important; line-height:1.65 !important; }
+.mensagem { text-align:center; padding:60px 20px; color:var(--texto-secundario); }
+.mensagem.erro { color:#FF8A80; }
+footer { text-align:center; margin-top:36px; color:var(--texto-secundario); font-size:.85rem; }
+@media (max-width:640px){ header{padding:20px;} h1{font-size:1.05rem;} }
+</style>
+</head>
+<body>
+<div class="container">
+    <a class="voltar" href="javascript:history.back()">&larr; Voltar</a>
+    <header>
+        <h1><span aria-hidden="true">🐍</span><span id="nome-arquivo">Carregando...</span></h1>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <span class="badge">Python</span>
+            <button class="btn-copiar" onclick="copiarCodigo()">📋 Copiar código</button>
+        </div>
+    </header>
+    <div class="codigo-wrapper">
+        <pre><code id="conteudo-codigo" class="language-python">Carregando código...</code></pre>
+    </div>
+    <footer>Universidade Federal do Pampa &bull; Campus Alegrete &bull; Engenharia &copy; 2026</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script>
+var params = new URLSearchParams(window.location.search);
+var caminho = params.get('arquivo');
+var nomeExibicao = caminho ? caminho.split('/').pop() : 'arquivo.py';
+document.getElementById('nome-arquivo').textContent = nomeExibicao;
+document.title = nomeExibicao + ' | Fernando Dala';
+
+var codigoTexto = '';
+
+if (caminho) {
+    fetch(caminho)
+        .then(function(res) {
+            if (!res.ok) throw new Error('Arquivo não encontrado (' + res.status + ')');
+            return res.text();
+        })
+        .then(function(texto) {
+            codigoTexto = texto;
+            var el = document.getElementById('conteudo-codigo');
+            el.textContent = texto;
+            hljs.highlightElement(el);
+        })
+        .catch(function(err) {
+            document.querySelector('.codigo-wrapper').innerHTML =
+                '<p class="mensagem erro">Não foi possível carregar o arquivo: ' + err.message + '</p>';
+        });
+} else {
+    document.querySelector('.codigo-wrapper').innerHTML =
+        '<p class="mensagem erro">Nenhum arquivo especificado.</p>';
+}
+
+function copiarCodigo() {
+    if (!codigoTexto) return;
+    navigator.clipboard.writeText(codigoTexto).then(function() {
+        var btn = document.querySelector('.btn-copiar');
+        var original = btn.innerHTML;
+        btn.innerHTML = '✅ Copiado!';
+        setTimeout(function(){ btn.innerHTML = original; }, 1800);
+    });
+}
+</script>
+</body>
+</html>
